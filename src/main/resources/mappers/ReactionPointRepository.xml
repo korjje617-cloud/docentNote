@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.ReactionPointRepository">
+
+	<insert id="addGoodReactionPoint">
+		INSERT INTO reactionPoint
+		SET
+		<!-- 현재 시간을 등록 날짜로 저장함 -->
+		regDate = NOW(),
+		<!-- 현재 시간을 수정 날짜로 저장함 -->
+		updateDate = NOW(),
+		<!-- 로그인한 사용자의 고유 번호를 입력함 -->
+		memberId = #{memberId},
+		<!-- 추천 대상이 게시글(article)인지 등의 종류를 입력함 -->
+		relTypeCode = #{relTypeCode},
+		<!-- 추천 대상이 되는 글의 번호를 입력함 -->
+		relId = #{relId},
+		<!-- 좋아요 상태이므로 점수를 1점으로 세팅하여 올림 -->
+		`point` = 1;
+	</insert>
+
+	<insert id="addBadReactionPoint">
+		INSERT INTO reactionPoint
+		SET
+		<!-- 데이터가 생성되는 시점의 시간을 저장함 -->
+		regDate = NOW(),
+		<!-- 데이터가 변경되는 시점의 시간을 저장함 -->
+		updateDate = NOW(),
+		<!-- 리액션을 남기는 회원의 번호를 저장함 -->
+		memberId = #{memberId},
+		<!-- 어떤 카테고리의 글인지 구분 코드를 저장함 -->
+		relTypeCode = #{relTypeCode},
+		<!-- 리액션을 남길 구체적인 글 번호를 저장함 -->
+		relId = #{relId},
+		<!-- 싫어요 상태이므로 점수를 -1점으로 세팅하여 내림 -->
+		`point` = -1;
+	</insert>
+
+	<select id="getSumReactionPoint">
+		<!-- 사용자가 남긴 점수들의 합계를 계산하되 기록이 없으면 0으로 처리함 -->
+		SELECT IFNULL(SUM(RP.point),0)
+		<!-- 리액션 기록이 담긴 테이블에서 데이터를 찾음 -->
+		FROM reactionPoint AS RP
+		<!-- 조회하려는 대상의 종류가 일치하는지 체크함 -->
+		WHERE RP.relTypeCode = #{relTypeCode}
+		<!-- 조회하려는 대상의 글 번호가 일치하는지 체크함 -->
+		AND RP.relId = #{relId}
+		<!-- 현재 접속한 회원이 남긴 기록인지 확인하여 차단함 -->
+		AND RP.memberId = #{memberId};
+	</select>
+
+	<delete id="deleteReactionPoint">
+		<!-- 조건에 맞는 리액션 기록 데이터를 테이블에서 삭제함 -->
+		DELETE FROM reactionPoint
+		<!-- 삭제하려는 기록이 본인의 것인지 회원 번호를 확인함 -->
+		WHERE memberId = #{memberId}
+		<!-- 어떤 종류의 리액션 기록인지 타입을 확인함 -->
+		AND relTypeCode = #{relTypeCode}
+		<!-- 어떤 글에 남겼던 기록인지 글 번호를 확인하여 체크함 -->
+		AND relId = #{relId}
+	</delete>
+
+</mapper>

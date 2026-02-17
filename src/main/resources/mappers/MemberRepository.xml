@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- [1. 파일 선언부] -->
+<!-- 이 파일이 XML 형식이며, 한글이 깨지지 않도록 UTF-8 인코딩을 사용한다는 설정-->
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- [2. 규칙 정의]--> 
+<!-- 이 파일이 MyBatis 3 버전의 문법을 따른다는 것을 증명하는 표준 규격 선언 -->
+
+<!-- [3. 연결 고리 설정] -->
+<!-- namespace: 이 XML이 실제 자바의 어떤 인터페이스와 짝꿍인지 전체 경로를 적어준다 -->
+<!-- 여기 적힌 경로의 인터페이스가 호출되면 마이바티스가 이 XML을 읽으러 온다 -->
+<mapper namespace="com.example.demo.repository.MemberRepository">
+
+	<!-- doJoin: 회원가입 정보를 DB에 새로 저장(INSERT)하는 명령 -->
+	<insert id="doJoin" parameterType="map">
+	
+		<!-- member 테이블에 아래 설정된 값들을 집어넣기 -->
+		INSERT INTO `member`
+		SET
+		
+		<!-- regDate: 현재 날짜와 시간을 가입일로 저장 -->
+		regDate = NOW(),
+		
+		<!-- updateDate: 현재 날짜와 시간을 수정일로 저장 -->
+		updateDate = NOW(),
+		
+		<!-- loginId: 자바에서 넘어온 아이디 값을 저장 -->
+		loginId = #{loginId},
+		
+		<!-- loginPw: 자바에서 넘어온 비밀번호 값을 저장 -->
+		loginPw = #{loginPw},
+		
+		<!-- name: 사용자의 실제 이름을 저장 (예약어라 백틱 사용) -->
+		`name` = #{name},
+		
+		<!-- nickname: 서비스에서 쓸 별명을 저장 -->
+		nickname = #{nickname},
+		
+		<!-- cellphoneNum: 연락처 정보를 저장 -->
+		cellphoneNum = #{cellphoneNum},
+		
+		<!-- email: 이메일 주소를 저장 -->
+		email = #{email}
+	</insert>
+
+
+	<!-- getLastInsertId: 가장 최근에 추가된 데이터의 고유 번호(ID)를 가져옴 -->
+	<select id="getLastInsertId" parameterType="int">
+	
+		<!-- DB가 방금 생성한 자동 증가 번호를 알려주는 함수 -->
+		SELECT
+		LAST_INSERT_ID();
+	</select>
+
+	<!-- getMemberByLoginId: 로그인 아이디로 특정 회원의 정보를 조회 -->
+	<select id="getMemberByLoginId" parameterType="String"
+		resultType="com.example.demo.vo.Member">
+		
+		<!-- member 테이블의 모든 정보를 가져온다 -->
+		SELECT * FROM `member`
+		
+		<!-- 입력받은 아이디와 일치하는 데이터만 골라낸다 -->
+		WHERE loginId = #{loginId}
+	</select>
+
+	<!-- getMemberByNameAndEmail: 이름과 이메일로 중복 회원이 있는지 확인 -->
+	<select id="getMemberByNameAndEmail" parameterType="String"
+		resultType="com.example.demo.vo.Member">
+		
+		<!-- 이름과 이메일 두 조건이 모두 일치하는지 확인 -->
+		SELECT * FROM `member`
+		WHERE name = #{name} AND email = #{email}
+	</select>
+
+	<!-- getMemberById: 숫자 번호(ID)로 특정 회원의 정보를 조회 -->
+	<select id="getMemberById" parameterType="int"
+		resultType="com.example.demo.vo.Member">
+		
+		<!-- 특정 고유 번호를 가진 데이터를 찾아온다 -->
+		SELECT * FROM `member`
+		WHERE id = #{id}
+	</select>
+
+</mapper>
