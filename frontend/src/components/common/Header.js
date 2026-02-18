@@ -28,9 +28,9 @@ function Header() {
               {/* -- tabindex 등 속성 이름 유지 -- */}
               <div tabIndex="0" role="button">LIST</div>
               <ul tabIndex="0" className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-sm">
-                <li><Link to="/article/list?boardId=1">NOTICE</Link></li>
-                <li><Link to="/article/list?boardId=2">FREE</Link></li>
-                <li><Link to="/article/list?boardId=3">QnA</Link></li>
+                <li><Link to="/usr/article/list?boardId=1">NOTICE</Link></li>
+                <li><Link to="/usr/article/list?boardId=2">FREE</Link></li>
+                <li><Link to="/usr/article/list?boardId=3">QnA</Link></li>
               </ul>
             </div>
           </li>
@@ -39,20 +39,20 @@ function Header() {
           {!isLogined ? (
             <>
               <li className="hover:underline">
-                <Link to="/member/login">LOGIN</Link>
+                <Link to="/usr/member/login">LOGIN</Link>
               </li>
               <li className="hover:underline">
-                <Link to="/member/join">JOIN</Link>
+                <Link to="/usr/member/join">JOIN</Link>
               </li>
             </>
           ) : (
             <>
               <li className="hover:underline">
-                <Link to="/article/write">WRITE</Link>
+                <Link to="/usr/article/write">WRITE</Link>
               </li>
               <li className="hover:underline">
                 {/* -- onclick -> onClick으로 변경 -- */}
-                <Link to="/member/doLogout" onClick={handleLogout}>LOGOUT</Link>
+                <Link to="/usr/member/doLogout" onClick={handleLogout}>LOGOUT</Link>
               </li>
             </>
           )}

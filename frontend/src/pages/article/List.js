@@ -1,122 +1,159 @@
-import React, { useState, useEffect } from 'react'; // -- useEffect 추가 [cite: 24] --
-import { Link, useSearchParams } from 'react-router-dom';
-import $ from 'jquery'; // -- 서버와 통신하기 위해 제이쿼리 임포트 --
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useSearchParams } from 'react-router-dom'; // 👈 URL 파라미터를 읽기 위해 추가!
 
-function List() {
-  const [searchParams] = useSearchParams();
-  // -- 주소창에서 boardId와 page 값을 읽어옵니다  --
-  const boardId = searchParams.get('boardId') || '1';
-  const page = parseInt(searchParams.get('page') || '1');
+const ArticleList = () => {
+  // 🔍 1. URL의 쿼리 스트링(?boardId=2&page=1 등)을 읽어오는 도구
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  // URL에서 값을 읽어오되, 없으면 기본값(1)을 사용함
+  const boardId = parseInt(searchParams.get('boardId')) || 1;
+  const page = parseInt(searchParams.get('page')) || 1;
+  const searchKeywordTypeCode = searchParams.get('searchKeywordTypeCode') || 'title';
+  const searchKeyword = searchParams.get('searchKeyword') || '';
 
-  // -- 1. 상태 관리: 서버에서 받아올 게시글 목록 [cite: 26, 27] --
   const [articles, setArticles] = useState([]);
-  const [articlesCount, setArticlesCount] = useState(0);
-  const [pagesCount, setPagesCount] = useState(1);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  // -- 💡 핵심: boardId나 page가 바뀔 때마다 실행되는 감시자  --
-  useEffect(() => {
-    loadArticles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [boardId, page]); // -- 이 배열 안의 값이 변하면 중괄호 { } 안의 코드가 다시 실행됩니다  --
-
-  // -- 2. 서버 데이터를 불러오는 함수 --
-  const loadArticles = () => {
-    $.get('/usr/article/getItems', {
-      boardId: boardId,
-      page: page
-    }, function(data) {
-      if (data.items) {
-        setArticles(data.items);
-        setArticlesCount(data.count);
-        setPagesCount(data.pagesCount);
+  // 📡 2. 데이터 불러오기 함수
+  const fetchArticles = async () => {
+    setLoading(true);
+    try {
+      // 현재 URL에 있는 파라미터들을 그대로 서버에 전달함
+      const response = await axios.get(`http://localhost:8081/usr/article/list`, {
+        params: { boardId, page, searchKeywordTypeCode, searchKeyword }
+      });
+      
+      if (response.data.resultCode.startsWith('S-')) {
+        setArticles(response.data.articles);
+        setData(response.data);
       }
-    }, 'json');
+    } catch (error) {
+      console.error("데이터 로딩 실패:", error);
+    }
+    setLoading(false);
   };
 
-  // -- 3. 페이징 로직 계산 [cite: 28, 29, 30] --
-  const paginationLen = 3;
-  const startPage = Math.max(1, page - paginationLen);
-  const endPage = Math.min(pagesCount, page + paginationLen);
-  const pages = [];
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i);
-  }
+  // 🔄 3. 핵심 로직: URL(searchParams)이 바뀔 때마다 실행됨!
+  // 이제 메뉴를 클릭해서 URL의 boardId가 바뀌면 이 useEffect가 즉시 감지하고 데이터를 새로 가져옵니다.
+  useEffect(() => {
+    fetchArticles();
+  }, [searchParams]); // 👈 URL이 변하면 무조건 다시 실행!
+
+  // 🖱️ 4. 검색 버튼 클릭 시 (URL을 변경함)
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    // URL을 업데이트함 (그러면 위의 useEffect가 감지해서 fetchArticles를 실행함)
+    setSearchParams({
+      boardId,
+      page: 1,
+      searchKeywordTypeCode: formData.get('searchKeywordTypeCode'),
+      searchKeyword: formData.get('searchKeyword')
+    });
+  };
+
+  if (loading) return <div>로딩 중...</div>;
 
   return (
     <section className="mt-24 text-xl px-4">
-      <div className="mx-auto container">
-        {/* -- 상단 검색바 영역 [cite: 31, 32, 33, 34] -- */}
-        <div className="mb-4 flex items-center">
-          <div>{articlesCount}개</div>
+      <div className="mx-auto">
+        <div className="mb-4 flex">
+          <div>{data.articlesCount}개 (게시판: {data.board?.name})</div>
           <div className="flex-grow"></div>
-          <form className="flex gap-2">
-            <input type="hidden" name="boardId" value={boardId} />
-            <select className="select select-sm select-bordered" name="searchKeywordTypeCode">
+          
+          {/* 검색 폼 */}
+          <form onSubmit={handleSearch} className="flex">
+            <select 
+              name="searchKeywordTypeCode"
+              className="select select-sm select-bordered"
+              defaultValue={searchKeywordTypeCode}
+            >
               <option value="title">title</option>
               <option value="body">body</option>
               <option value="title,body">title+body</option>
               <option value="nickname">nickname</option>
             </select>
-            <label className="input input-bordered input-sm flex items-center gap-2">
-              <input type="text" className="grow" placeholder="Search" name="searchKeyword" />
+            <label className="ml-3 input input-bordered input-sm flex items-center gap-2">
+              <input 
+                type="text" 
+                name="searchKeyword"
+                placeholder="Search" 
+                defaultValue={searchKeyword}
+              />
               <button type="submit">🔍</button>
             </label>
           </form>
         </div>
 
-        {/* -- 게시글 테이블 [cite: 35, 36, 37, 38, 39, 40, 41, 42] -- */}
-        <div className="overflow-x-auto">
-          <table className="table w-full border-collapse border">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="text-center border">ID</th>
-                <th className="text-center border">Date</th>
-                <th className="text-center border">Title</th>
-                <th className="text-center border">Writer</th>
-                <th className="text-center border">Hit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {articles.length > 0 ? (
-                articles.map((article) => (
-                  <tr key={article.id} className="hover:bg-base-200">
-                    <td className="text-center border">{article.id}</td>
-                    <td className="text-center border">{article.regDate.substring(0, 10)}</td>
-                    <td className="text-center border">
-                      <Link to={`/article/detail?id=${article.id}`} className="hover:underline text-blue-600 font-bold">
-                        {article.title}
-                      </Link>
-                    </td>
-                    <td className="text-center border">{article.extra__writer}</td>
-                    <td className="text-center border">{article.hitCount}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="text-center py-10 text-gray-400">게시글이 없습니다.</td>
+        {/* 게시글 테이블 (기존과 동일) */}
+        <table className="table w-full border-collapse">
+          <thead>
+            <tr className="text-center">
+              <th>ID</th>
+              <th>Registration date</th>
+              <th>Title</th>
+              <th>Writer</th>
+              <th>Hit</th>
+              <th>goodRP</th>
+            </tr>
+          </thead>
+          <tbody>
+            {articles.length > 0 ? (
+              articles.map(article => (
+                <tr key={article.id} className="hover:bg-base-300 text-center">
+                  <td>{article.id}</td>
+                  <td>{article.regDate.substring(0, 10)}</td>
+                  <td>
+                    <a href={`/usr/article/detail?id=${article.id}`}>{article.title}</a>
+                  </td>
+                  <td>{article.extra__writer}</td>
+                  <td>{article.hitCount}</td>
+                  <td>{article.goodReactionPoint}</td>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : (
+              <tr><td colSpan="6" className="text-center">게시글이 없습니다</td></tr>
+            )}
+          </tbody>
+        </table>
 
-        {/* -- 페이징 버튼 [cite: 43, 44, 45] -- */}
-        <div className="flex justify-center mt-8">
-          <div className="join">
-            {pages.map((i) => (
-              <Link
-                key={i}
-                className={`join-item btn btn-sm ${page === i ? 'btn-active' : ''}`}
-                to={`?boardId=${boardId}&page=${i}`}
-              >
-                {i}
-              </Link>
-            ))}
-          </div>
+        {/* 📟 페이징 영역 (URL을 변경하는 방식) */}
+        <div className="flex justify-center mt-4 btn-group join">
+          {(() => {
+            const paginationLen = 3;
+            const startPage = Math.max(1, data.page - paginationLen);
+            const endPage = Math.min(data.pagesCount, data.page + paginationLen);
+            const pages = [];
+
+            const changePage = (p) => {
+              setSearchParams({ boardId, page: p, searchKeywordTypeCode, searchKeyword });
+            };
+
+            if (startPage > 1) pages.push(<button key={1} onClick={() => changePage(1)} className="join-item btn btn-sm">1</button>);
+            
+            for (let i = startPage; i <= endPage; i++) {
+              pages.push(
+                <button 
+                  key={i} 
+                  onClick={() => changePage(i)}
+                  className={`join-item btn btn-sm ${data.page === i ? 'btn-active' : ''}`}
+                >
+                  {i}
+                </button>
+              );
+            }
+
+            if (endPage < data.pagesCount) pages.push(<button key={data.pagesCount} onClick={() => changePage(data.pagesCount)} className="join-item btn btn-sm">{data.pagesCount}</button>);
+
+            return pages;
+          })()}
         </div>
       </div>
     </section>
   );
-}
+};
 
-export default List;
+export default ArticleList;

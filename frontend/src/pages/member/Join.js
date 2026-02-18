@@ -34,10 +34,10 @@ function Join() {
     if (!member.name.trim()) return alert('이름을 입력해주세요.');
 
     // -- 기존 JSP의 action="../member/doJoin" 역할을 Ajax로 처리  --
-    $.post('../member/doJoin', member, function(data) {
+    $.post('../usr/member/doJoin', member, function(data) {
       if (data.resultCode?.startsWith('S-')) {
         alert(data.msg || '회원가입이 완료되었습니다.');
-        navigate('/member/login'); // -- 가입 성공 시 로그인 페이지로 이동 --
+        navigate('/usr/member/login'); // -- 가입 성공 시 로그인 페이지로 이동 --
       } else {
         alert(data.msg || '회원가입에 실패했습니다.');
       }

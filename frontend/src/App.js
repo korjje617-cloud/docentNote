@@ -26,13 +26,13 @@ function App() {
           <Route path="/" element={<Main />} />
           
           {/* 게시판 관련 주소들 */}
-          <Route path="/article/list" element={<List />} />
-          <Route path="/article/detail" element={<Detail />} />
-          <Route path="/article/write" element={<Write />} />
+          <Route path="/usr/article/list" element={<List />} />
+            <Route path="/usr/article/detail" element={<Detail />} />
+            <Route path="/usr/article/write" element={<Write />} />
           
           {/* 회원 관련 주소들 */}
-          <Route path="/member/login" element={<Login />} />
-          <Route path="/member/join" element={<Join />} />
+          <Route path="/usr/member/login" element={<Login />} />
+          <Route path="/usr/member/join" element={<Join />} />
         </Routes>
 
         {/* -- 모든 페이지에서 공통으로 보이는 하단바 -- */}

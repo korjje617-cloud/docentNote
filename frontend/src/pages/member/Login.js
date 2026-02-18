@@ -29,7 +29,7 @@ function Login() {
     if (!loginInfo.loginPw.trim()) return alert('비밀번호를 입력해주세요.');
 
     // -- 기존 JSP의 action="../member/doLogin" 역할을 Ajax로 처리 -- 
-    $.post('../member/doLogin', loginInfo, function(data) {
+    $.post('../usr/member/doLogin', loginInfo, function(data) {
       if (data.resultCode?.startsWith('S-')) {
         alert(data.msg || '로그인 되었습니다.');
         // -- 로그인 성공 시 메인 화면으로 이동 --
