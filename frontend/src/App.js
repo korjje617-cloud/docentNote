@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// -- 공통 컴포넌트 불러오기 --
+import Header from './components/common/Header';
+import Footer from './components/common/Footer';
+
+// -- 각 페이지 컴포넌트 불러오기 --
+import Main from './pages/home/Main';
+import List from './pages/article/List';
+import Detail from './pages/article/Detail';
+import Write from './pages/article/Write';
+import Login from './pages/member/Login';
+import Join from './pages/member/Join';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        {/* -- 모든 페이지에서 공통으로 보이는 상단바 -- */}
+        <Header />
+
+        {/* -- 주소에 따라 바뀌는 콘텐츠 영역 -- */}
+        <Routes>
+          {/* localhost:3000/ 접속 시 메인 페이지 */}
+          <Route path="/" element={<Main />} />
+          
+          {/* 게시판 관련 주소들 */}
+          <Route path="/article/list" element={<List />} />
+          <Route path="/article/detail" element={<Detail />} />
+          <Route path="/article/write" element={<Write />} />
+          
+          {/* 회원 관련 주소들 */}
+          <Route path="/member/login" element={<Login />} />
+          <Route path="/member/join" element={<Join />} />
+        </Routes>
+
+        {/* -- 모든 페이지에서 공통으로 보이는 하단바 -- */}
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
