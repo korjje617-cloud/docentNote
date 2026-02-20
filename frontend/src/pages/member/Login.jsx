@@ -6,7 +6,7 @@ export const Login = () => {
 
   return (
     <div className="bg-[#E5E7EB] w-full min-h-screen flex justify-center items-start pt-20 pb-10 ">
-      <div className="flex gap-[10px] scale-110">
+      <div className="flex gap-[10px]">
         
         {/* 왼쪽 티켓: 명화 영역 */}
         <div className="w-[350px] h-[650px] stamp-edge bg-gray-900 shadow-2xl relative overflow-hidden">
