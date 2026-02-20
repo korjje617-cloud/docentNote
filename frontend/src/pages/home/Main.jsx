@@ -7,9 +7,6 @@ export const Main = () => {
   return (
 
     <div className="bg-[#F3F3F3] w-full min-h-screen font-song flex flex-col">
-      
-      <Header />
-
       <main className="flex-1 flex justify-center items-center py-20">
         <div className="flex gap-[100px] items-start">
           <div className="font-corinthia text-[150px] leading-none mt-20">
@@ -21,7 +18,7 @@ export const Main = () => {
               <img 
                 src="/crawling_images/Romanticism/Constable/constable_18.jpg" 
                 alt="Main"
-                className="w-full object-cover"
+                className="w-full"
               />
             </div>
             <div className="text-right mt-8">
@@ -32,9 +29,6 @@ export const Main = () => {
           </div>
         </div>
       </main>
-
-      <Footer />
-
     </div>
   );
 };

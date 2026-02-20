@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Song+Myung&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Corinthia&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -29,8 +30,53 @@ body {
   -webkit-text-stroke: 0.5px currentColor;
 }
 
+.font-barcode {
+  font-family: 'Libre Barcode 128 Text', sans-serif;
+}
+
 html, body, #root {
   height: 100%;  /* 높이를 화면 끝까지 채우도록 설정 */
   margin: 0;
   padding: 0;
+}
+
+/* 저장: 완성된 마스크 규칙을 stamp-edge 클래스에 저장 */
+.stamp-edge {
+  /* 설정: 모든 레이어를 겹쳐서 투명한 곳만 뚫도록 마스크 설정 */
+  -webkit-mask-image:
+    /* 생성: 좌상단 30px 큰 원 생성 */
+    radial-gradient(circle at 0 0, transparent 30px, black 31px),
+    /* 생성: 우상단 30px 큰 원 생성 */
+    radial-gradient(circle at 100% 0, transparent 30px, black 31px),
+    /* 생성: 좌하단 30px 큰 원 생성 */
+    radial-gradient(circle at 0 100%, transparent 30px, black 31px),
+    /* 생성: 우하단 30px 큰 원 생성 */
+    radial-gradient(circle at 100% 100%, transparent 30px, black 31px),
+    /* 생성: 상단 10px 작은 원 생성 */
+    radial-gradient(circle at 50% 0, transparent 10px, black 11px),
+    /* 생성: 하단 10px 작은 원 생성 */
+    radial-gradient(circle at 50% 100%, transparent 10px, black 11px);
+
+  /* 설정: 레이어 크기를 조절하여 몸통이 잘리지 않게 설정 */
+  -webkit-mask-size:
+    /* 확인: 큰 원들은 100% 높이로 몸통 보존 확인 */
+    100% 100%, 100% 100%, 100% 100%, 100% 100%,
+    /* 확인: 작은 원 넓이를 7등분하고, 높이는 100%로 늘려 몸통 보존 확인 (가장 중요한 수정!) */
+    calc((100% - 60px) / 8) 100%,
+    calc((100% - 60px) / 8) 100%;
+
+  /* 설정: 작은 원들이 양쪽 30px 여백 뒤에 오도록 위치 설정 */
+  -webkit-mask-position:
+    0 0, 0 0, 0 0, 0 0,
+    30px 0, 30px 0;
+
+  /* 설정: 작은 원만 가로로 반복되도록 설정 */
+  -webkit-mask-repeat:
+    no-repeat, no-repeat, no-repeat, no-repeat,
+    repeat-x, repeat-x;
+
+  /* 가져옴: 브라우저 기본 마스크 교집합(intersect) 속성을 가져옴 */
+  /* 확인: 겹치는 부분만 투명하게 뚫리도록 마스크 합성 확인 */
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
 }
