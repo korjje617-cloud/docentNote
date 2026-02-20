@@ -12,6 +12,7 @@ import Detail from './pages/article/Detail';
 import Write from './pages/article/Write';
 import Login from './pages/member/Login';
 import Join from './pages/member/Join';
+import Docent from './pages/archive/Docent';
 
 function App() {
   return (
@@ -33,6 +34,11 @@ function App() {
           {/* 회원 관련 주소들 */}
           <Route path="/usr/member/login" element={<Login />} />
           <Route path="/usr/member/join" element={<Join />} />
+
+          {/* 아카이브 관련 주소들 */}
+          <Route path="/usr/archive/docent" element={<Docent />} />
+
+
         </Routes>
 
         {/* -- 모든 페이지에서 공통으로 보이는 하단바 -- */}
