@@ -1,24 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Song+Myung&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Corinthia&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 피그마에서 사용된 폰트들을 적용 */
+/* 
+피그마에서 사용된 폰트들을 적용 
+기본 본문 폰트
+필기체 폰트
+제목 폰트
+*/
+
+
 body {
   margin: 0;
-  font-family: 'Song Myung', serif; /* 기본 폰트를 명조체로 설정 */
+  font-family: 'Noto Sans KR', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 .font-corinthia {
-  font-family: 'Corinthia', cursive; /* Today is에 사용할 필기체 */
+  font-family: 'Corinthia', cursive;
 }
 
-/* 송명 볼드 스타일 넣기 */
 .font-song-bold {
   font-family: 'Song Myung', serif;
-  /* 0.5px 정도의 외곽선을 추가 */
   -webkit-text-stroke: 0.5px currentColor;
+}
+
+html, body, #root {
+  height: 100%;  /* 높이를 화면 끝까지 채우도록 설정 */
+  margin: 0;
+  padding: 0;
 }

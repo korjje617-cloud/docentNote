@@ -1,23 +1,23 @@
 // src/pages/home/Main.jsx
 import React from 'react';
-import Header from '../../components/common/Header'; // 헤더 파일 불러오기
+import Header from '../../components/common/Header'; 
+import Footer from '../../components/common/Footer'; 
 
 export const Main = () => {
   return (
-    <div className="bg-[#F3F3F3] w-full min-h-screen font-song">
+
+    <div className="bg-[#F3F3F3] w-full min-h-screen font-song flex flex-col">
       
-      {/* 지저분한 헤더 코드 대신 한 줄로 끝 */}
       <Header />
 
-      {/* 메인 섹션 디자인만 남김 */}
-      <main className="flex justify-center items-center pt-[100px]">
+      <main className="flex-1 flex justify-center items-center py-20">
         <div className="flex gap-[100px] items-start">
           <div className="font-corinthia text-[150px] leading-none mt-20">
             Today is
           </div>
 
           <div className="flex flex-col items-end">
-            <div className="w-[500px] bg-white p-3 shadow-2xl">
+            <div className="w-[40vw] bg-white p-3 shadow-2xl">
               <img 
                 src="/crawling_images/Romanticism/Constable/constable_18.jpg" 
                 alt="Main"
@@ -32,6 +32,9 @@ export const Main = () => {
           </div>
         </div>
       </main>
+
+      <Footer />
+
     </div>
   );
 };
