@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import Tiptap from './components/common/Tiptap'
+
+
 // -- 공통 컴포넌트 불러오기 --
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
@@ -10,9 +13,12 @@ import Main from './pages/home/Main';
 import List from './pages/article/List';
 import Detail from './pages/article/Detail';
 import Write from './pages/article/Write';
+import Modify from './pages/article/Modify';
 import Login from './pages/member/Login';
 import Join from './pages/member/Join';
 import Docent from './pages/archive/Docent';
+
+
 
 function App() {
   return (
@@ -29,7 +35,8 @@ function App() {
           {/* 게시판 관련 주소들 */}
           <Route path="/usr/article/list" element={<List />} />
           <Route path="/usr/article/detail" element={<Detail />} />
-          <Route path="/usrarticle/write" element={<Write />} />
+          <Route path="/usr/article/write" element={<Write />} />
+          <Route path="/usr/article/modify" element={<Modify />} />
           
           {/* 회원 관련 주소들 */}
           <Route path="/usr/member/login" element={<Login />} />

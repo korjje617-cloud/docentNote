@@ -1,0 +1,114 @@
+/* 전체 외곽선 및 배경 */
+.tiptap-editor-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* 툴바 디자인 */
+.tiptap-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.toolbar-group {
+  display: flex;
+  gap: 2px;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background-color: #e2e8f0;
+  margin: 0 8px;
+}
+
+.tiptap-toolbar button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tiptap-toolbar button:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.tiptap-toolbar button.is-active {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* 본문 영역 */
+.tiptap-body {
+  padding: 60px 80px;
+  text-align: left;
+}
+
+.tiptap-title-input {
+  width: 100%;
+  font-size: 40px;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  margin-bottom: 30px;
+  color: #1e293b;
+}
+
+.tiptap-content {
+  min-height: 400px;
+  outline: none;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #334155;
+}
+
+/* Placeholder 스타일 */
+.tiptap-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #cbd5e1;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Tiptap.css 하단에 추가 */
+
+.tiptap-content img {
+  display: block;
+  max-width: 100%; /* 부모 너비를 넘지 않게 설정 */
+  height: auto;
+  margin: 1.5rem auto; /* 이미지를 중앙에 배치 */
+  border-radius: 8px; /* 이미지 모서리 둥글게 */
+}
+
+/* 이미지가 선택되었을 때 표시 */
+.tiptap-content img.ProseMirror-selectednode {
+  outline: 3px solid #3b82f6;
+}
+
+.title-body-divider {
+  height: 2px;               /* 두께를 2px로 늘림 */
+  background-color: #a7a7a7; /* 더 선명하고 진한 회색(거의 검은색에 가까운) */
+  margin: 15px 0 35px 0;     /* 위아래 간격을 넉넉히 줌 */
+  width: 100%;               /* 가로 길이를 꽉 채움 */
+  border-radius: 2px;        /* 선 끝을 살짝 둥글게 */
+  opacity: 0.8;              /* 너무 튀지 않게 살짝 투명도 조절 */
+}

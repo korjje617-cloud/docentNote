@@ -7,14 +7,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 
-피그마에서 사용된 폰트들을 적용 
-기본 본문 폰트
-필기체 폰트
-제목 폰트
-*/
-
-
 body {
   margin: 0;
   font-family: 'Noto Sans KR', sans-serif;
@@ -40,7 +32,7 @@ html, body, #root {
   padding: 0;
 }
 
-/* 저장: 완성된 마스크 규칙을 stamp-edge 클래스에 저장 */
+/* 완성된 마스크 규칙을 stamp-edge 클래스에 저장 */
 .stamp-edge {
   /* 설정: 모든 레이어를 겹쳐서 투명한 곳만 뚫도록 마스크 설정 */
   -webkit-mask-image:
