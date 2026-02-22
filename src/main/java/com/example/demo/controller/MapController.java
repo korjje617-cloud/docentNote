@@ -20,10 +20,10 @@ public class MapController {
 	@GetMapping("/museum")
 	public String getMuseumData() {
 		// 설정: 공공데이터 포탈에서 복사한 End Point 주소
-		String url = "http://api.data.go.kr/openapi/tn_pubr_public_museum_artgr_info_api";
+		String url = "주소 삭제";
 
 		// 설정: 본인이 발급받은 일반 인증키(Decoding)
-		String serviceKey = "83ae638f6f60bf5d25c063b30bb21601dd26404c79c5817f80939073ab54f1e3";
+		String serviceKey = "인증키 삭제";
 
 		// 설정: 요청에 필요한 파라미터(인증키, 타입, 개수 등)를 주소 뒤에 붙임
 		String fullUrl = url + "?serviceKey=" + serviceKey + "&type=json&pageNo=1&numOfRows=213";
