@@ -17,7 +17,7 @@ import Modify from './pages/article/Modify';
 import Login from './pages/member/Login';
 import Join from './pages/member/Join';
 import Docent from './pages/archive/Docent';
-
+import ArchivePage from './pages/archive/ArchivePage';
 
 
 function App() {
@@ -43,8 +43,8 @@ function App() {
           <Route path="/usr/member/join" element={<Join />} />
 
           {/* 아카이브 관련 주소들 */}
-          <Route path="/usr/archive/docent" element={<Docent />} />
-
+          <Route path="/api/archive/docent" element={<Docent />} />
+          <Route path="/api/archive/main" element={<ArchivePage />} />
 
         </Routes>
 

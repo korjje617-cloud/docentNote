@@ -1,0 +1,22 @@
+.archive-layout { display: flex; min-height: 100vh; padding-top: 20px; }
+
+/* 사이드바 스타일 */
+.archive-sidebar { width: 250px; border-right: 1px solid #ddd; padding: 20px; position: sticky; top: 80px; height: calc(100vh - 100px); }
+.category-menu button { display: block; width: 100%; padding: 10px; margin-bottom: 5px; text-align: left; background: none; border: none; font-weight: bold; cursor: pointer; }
+.side-list { list-style: none; padding: 0; margin-top: 20px; overflow-y: auto; max-height: 70%; }
+.side-list li { padding: 8px 12px; cursor: pointer; font-size: 0.95rem; color: #555; }
+.side-list li:hover { background: #f0f0f0; color: #000; }
+
+/* 메인 영역 스타일 */
+.archive-main { flex: 1; padding: 0 30px; }
+.color-filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; padding: 15px; background: #f9f9f9; border-radius: 10px; }
+.color-btn { padding: 6px 15px; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; }
+
+/* 메이슨리 그리드 스타일 */
+.my-masonry-grid { display: flex; margin-left: -20px; width: auto; }
+.my-masonry-grid_column { padding-left: 20px; background-clip: padding-box; }
+.painting-card { margin-bottom: 20px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.painting-card img { width: 100%; display: block; }
+.p-info { padding: 12px; }
+.p-info h4 { margin: 0 0 5px 0; font-size: 1rem; }
+.p-info p { margin: 0; font-size: 0.85rem; color: #777; }
