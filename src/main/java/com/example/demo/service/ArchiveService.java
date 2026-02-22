@@ -3,8 +3,9 @@ package com.example.demo.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo.repository.ArchiveRepository;
+
 import com.example.demo.vo.Painting;
+import com.example.demo.repository.ArchiveRepository;
 import com.example.demo.vo.ArchiveColor;
 import com.example.demo.vo.PaintingColorMap;
 import com.google.cloud.vision.v1.ColorInfo; // 구글 API 색상 정보 클래스

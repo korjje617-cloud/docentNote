@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Tiptap from './components/common/Tiptap'
+import Tiptap from './components/common/Quill'
 
 
 // -- 공통 컴포넌트 불러오기 --
@@ -18,6 +18,7 @@ import Login from './pages/member/Login';
 import Join from './pages/member/Join';
 import Docent from './pages/archive/Docent';
 import ArchivePage from './pages/archive/ArchivePage';
+import Map from './pages/map/Map';
 
 
 function App() {
@@ -32,11 +33,13 @@ function App() {
           {/* localhost:3000/ 접속 시 메인 페이지 */}
           <Route path="/" element={<Main />} />
           
-          {/* 게시판 관련 주소들 */}
+          {/* 게시판 관련 주소들 아직 미구현
           <Route path="/usr/article/list" element={<List />} />
           <Route path="/usr/article/detail" element={<Detail />} />
           <Route path="/usr/article/write" element={<Write />} />
           <Route path="/usr/article/modify" element={<Modify />} />
+          */}
+          
           
           {/* 회원 관련 주소들 */}
           <Route path="/usr/member/login" element={<Login />} />
@@ -45,6 +48,9 @@ function App() {
           {/* 아카이브 관련 주소들 */}
           <Route path="/api/archive/docent" element={<Docent />} />
           <Route path="/api/archive/main" element={<ArchivePage />} />
+
+          {/* 미술관 지도 */}
+          <Route path="/api/map/museum" element={<Map />} />
 
         </Routes>
 

@@ -1,0 +1,27 @@
+/* -- 설정: 에디터 전체 감싸는 영역 -- */
+.quill-wrapper {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* -- 설정: 글쓰기 영역의 높이를 충분히 가져옴 -- */
+.ql-container {
+  min-height: 450px; 
+  font-size: 16px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: white;
+}
+
+/* -- 설정: 툴바(메뉴바) 디자인 확인 -- */
+.ql-toolbar {
+  background-color: #f8f9fa; /* 연한 회색 배경 */
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-color: #ccc;
+}
+
+/* -- 확인: 폰트 선택창 등 드롭다운 디자인 수정 -- */
+.ql-snow .ql-picker.ql-header {
+  width: 100px;
+}

@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.vo.Painting;
+
 import com.example.demo.service.ArchiveService;
+import com.example.demo.vo.Painting;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController // JSP 경로 대신 데이터를 리턴하도록 설정
