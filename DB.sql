@@ -65,7 +65,7 @@ CREATE TABLE `painting` (
   `paintingNameKr` VARCHAR(100) NOT NULL,
   `painterId` INT NOT NULL,
   `movementId` INT NOT NULL,
-  `imgPath` VARCHAR(500) NOT NULL,
+  `imgUrl` VARCHAR(500) NOT NULL,
   `regDate` DATETIME NOT NULL,
   `updateDate` DATETIME NOT NULL
 );
@@ -194,7 +194,7 @@ INSERT INTO `archiveColor` (`colorName`, `min_r`, `max_r`, `min_g`, `max_g`, `mi
 
 -- 아르누보 화가 데이터
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
-('Jules Chéret', '쥘 셰레', 1, 'France', NOW(), NOW()),
+('Jules Cheret', '쥘 셰레', 1, 'France', NOW(), NOW()),
 ('Gustav Klimt', '구스타프 클림트', 1, 'Austria', NOW(), NOW()),
 ('Berthon Livemont', '베르통 리브몽', 1, 'Belgium', NOW(), NOW()),
 ('Henri Meunier', '앙리 뫼니에', 1, 'Belgium', NOW(), NOW()),
@@ -206,8 +206,7 @@ INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `national
 ('Jan Brueghel the Elder', '얀 브뤼헐', 2, 'Belgium', NOW(), NOW()),
 ('Castello Caldei', '카스텔로 칼데이', 2, 'Italy', NOW(), NOW()),
 ('Gerard van Honthorst', '게라르드 반 혼토르스트', 2, 'Netherlands', NOW(), NOW()),
-('Rembrandt', '렘브란트', 2, 'Netherlands', NOW(), NOW()),
-('Peter Paul Rubens', '피터 파울 루벤스', 2, 'Germany', NOW(), NOW()),
+('Rembrandt Harmenszoon van Rijn', '렘브란트 하르먼손 판레인', 2, 'Netherlands', NOW(), NOW()),
 ('Diego Velázquez', '디에고 벨라스케스', 2, 'Spain', NOW(), NOW()),
 ('Johannes Vermeer', '요하네스 베르메르', 2, 'Netherlands', NOW(), NOW());
 
@@ -218,7 +217,7 @@ INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `national
 -- 인상주의 화가
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
 ('Edgar Degas', '에드가 드가', 4, 'France', NOW(), NOW()),
-('Édouard Manet', '에두아르 마네', 4, 'France', NOW(), NOW()),
+('Edouard Manet', '에두아르 마네', 4, 'France', NOW(), NOW()),
 ('Claude Monet', '클로드 모네', 4, 'France', NOW(), NOW()),
 ('Berthe Morisot', '베르트 모리조', 4, 'France', NOW(), NOW()),
 ('Camille Pissarro', '카미유 피사로', 4, 'France', NOW(), NOW()),
@@ -227,20 +226,22 @@ INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `national
 
 -- 탈인상주의 화가
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
-('Paul Cézanne', '폴 세잔', 5, 'France', NOW(), NOW()),
-('Paul Gauguin', '폴 고갱', 5, 'France', NOW(), NOW()),
+('Paul Cezanne', '폴 세잔', 5, 'France', NOW(), NOW()),
 ('Vincent van Gogh', '빈센트 반 고흐', 5, 'Netherlands', NOW(), NOW()),
-('Georges Seurat', '조르주 쇠라', 5, 'France', NOW(), NOW());
+('Gustave Loiseau', '귀스타브 루아조', 5, 'France', NOW(), NOW()),
+('Theo van Rysselberghe', '테오 반 뤼셀베르그', 5, 'Belgium', NOW(), NOW()),
+('Georges Seurat', '조르주 쇠라', 5, 'France', NOW(), NOW()),
+('Henri Le Sidaner', '앙리 르 시다네르', 5, 'France', NOW(), NOW());
 
 -- 리얼리즘 화가
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
 ('Gustave Courbet', '귀스타브 쿠르베', 6, 'France', NOW(), NOW()),
-('Honoré Daumier', '오노레 도미에', 6, 'France', NOW(), NOW()),
-('Jean-François Millet', '장 프랑수아 밀레', 6, 'France', NOW(), NOW()),
+('Honore Daumier', '오노레 도미에', 6, 'France', NOW(), NOW()),
+('Jean-Francois Millet', '장 프랑수아 밀레', 6, 'France', NOW(), NOW()),
 ('Anders Zorn', '안데르스 소른', 6, 'Sweden', NOW(), NOW()),
 ('Ilya Repin', '일리아 레핀', 6, 'Russia', NOW(), NOW()),
 ('Jean-Baptiste Robie', '장 바티스트 로비', 6, 'Belgium', NOW(), NOW()),
-('Amélie Helga Lundahl', '아멜리 헬가 룬달', 6, 'Finland', NOW(), NOW());
+('Amelie Helga Lundahl', '아멜리 헬가 룬달', 6, 'Finland', NOW(), NOW());
 
 -- 르네상스 화가
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
@@ -249,20 +250,20 @@ INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `national
 
 -- 로코코 화가
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
-('François Boucher', '프랑수아 부셰', 8, 'France', NOW(), NOW()),
-('Canaletto', '카날레토', 8, 'Italy', NOW(), NOW()),
-('Jean-Honoré Fragonard', '장 오노레 프라고나르', 8, 'France', NOW(), NOW()),
+('Francois Boucher', '프랑수아 부셰', 8, 'France', NOW(), NOW()),
+('Canaletto', '지오반니 안토니오 카날', 8, 'Italy', NOW(), NOW()),
+('Jean-Honore Fragonard', '장 오노레 프라고나르', 8, 'France', NOW(), NOW()),
 ('Thomas Gainsborough', '토머스 게인즈버러', 8, 'UK', NOW(), NOW()),
-('Élisabeth Vigée Le Brun', '엘리자베스 비제 르 브룅', 8, 'France', NOW(), NOW()),
+('Elisabeth Vigee Le Brun', '엘리자베스 비제 르 브룅', 8, 'France', NOW(), NOW()),
 ('Giovanni Battista Tiepolo', '조반니 바티스타 티에폴로', 8, 'Italy', NOW(), NOW()),
 ('Jean-Antoine Watteau', '장 앙투안 와토', 8, 'France', NOW(), NOW());
 
 -- 낭만주의 화가
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
 ('John Constable', '존 컨스터블', 9, 'UK', NOW(), NOW()),
+('Eugene Delacroix', '외젠 들라쿠르아', 9, 'France', NOW(), NOW()),
 ('Caspar David Friedrich', '카스파르 다비드 프리드리히', 9, 'Germany', NOW(), NOW()),
 ('Francisco Goya', '프란시스코 고야', 9, 'Spain', NOW(), NOW()),
 ('J. M. W. Turner', '조셉 말로드 윌리엄 터너', 9, 'UK', NOW(), NOW());
 
 -- 여기까지가 기본 데이터 
-
