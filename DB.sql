@@ -65,7 +65,6 @@ CREATE TABLE `painting` (
   `paintingNameKr` VARCHAR(100) NOT NULL,
   `painterId` INT NOT NULL,
   `movementId` INT NOT NULL,
-  `createYear` INT NOT NULL,
   `imgPath` VARCHAR(500) NOT NULL,
   `regDate` DATETIME NOT NULL,
   `updateDate` DATETIME NOT NULL
@@ -167,8 +166,7 @@ ALTER TABLE `painting_color_map` ADD FOREIGN KEY (`paintingId`) REFERENCES `pain
 
 ALTER TABLE `painting_color_map` ADD FOREIGN KEY (`archiveColorId`) REFERENCES `archiveColor` (`id`);
 
----
-
+-- 미술사조 목록
 INSERT INTO `Movement` (`moveNameEn`, `moveNameKr`) VALUES 
 ('Art Nouveau', '아르누보'),
 ('Baroque', '바로크'),
@@ -180,15 +178,7 @@ INSERT INTO `Movement` (`moveNameEn`, `moveNameKr`) VALUES
 ('Rococo', '로코코'),
 ('Romanticism', '낭만주의');
 
-INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
-('Jules Chéret', '쥘 셰레', 1, 'France', NOW(), NOW()),
-('Gustav Klimt', '구스타프 클림트', 1, 'Austria', NOW(), NOW()),
-('Berthon Livemont', '베르통 리브몽', 1, 'Belgium', NOW(), NOW()),
-('Henri Meunier', '앙리 뫼니에', 1, 'Belgium', NOW(), NOW()),
-('Alphonse Mucha', '알폰스 무하', 1, 'Czech', NOW(), NOW()),
-('Kay Nielsen', '케이 닐슨', 1, 'Denmark', NOW(), NOW());
-
--- 널널하게 보정된 색상 데이터 입력 (저장)
+-- 색상 데이터 
 INSERT INTO `archiveColor` (`colorName`, `min_r`, `max_r`, `min_g`, `max_g`, `min_b`, `max_b`, `regDate`) VALUES 
 ('Red', 120, 255, 0, 120, 0, 120, NOW()),      -- 빨강 (범위 하향)
 ('Orange', 180, 255, 80, 180, 0, 120, NOW()),   -- 주황
@@ -202,39 +192,77 @@ INSERT INTO `archiveColor` (`colorName`, `min_r`, `max_r`, `min_g`, `max_g`, `mi
 ('White', 180, 255, 180, 255, 180, 255, NOW()), -- 하양 (회색빛 하양까지 포함)
 ('Brown', 50, 200, 20, 160, 0, 120, NOW());     -- 갈색 (매우 넓게 설정)
 
+-- 아르누보 화가 데이터
+INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
+('Jules Chéret', '쥘 셰레', 1, 'France', NOW(), NOW()),
+('Gustav Klimt', '구스타프 클림트', 1, 'Austria', NOW(), NOW()),
+('Berthon Livemont', '베르통 리브몽', 1, 'Belgium', NOW(), NOW()),
+('Henri Meunier', '앙리 뫼니에', 1, 'Belgium', NOW(), NOW()),
+('Alphonse Mucha', '알폰스 무하', 1, 'Czech', NOW(), NOW()),
+('Kay Nielsen', '케이 닐슨', 1, 'Denmark', NOW(), NOW());
 
--- 1. 쥘 셰레 (Jules Chéret, painterId: 1)
-INSERT INTO `painting` (`paintingNameEn`, `paintingNameKr`, `painterId`, `movementId`, `createYear`, `imgPath`, `regDate`, `updateDate`)
-SELECT CONCAT('Cheret Artwork ', n), CONCAT('쥘 셰레 작품 ', n), 1, 1, 1890, 
-CONCAT('C:\\jje_works\\sts5.0.1_workspace\\docentNote\\frontend\\public\\crawling_images\\Art_Nouveau\\Cheret\\cheret_', n, '.jpg'), NOW(), NOW()
-FROM (SELECT 0 n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19) AS numbers;
+-- 바로크 화가
+INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
+('Jan Brueghel the Elder', '얀 브뤼헐', 2, 'Belgium', NOW(), NOW()),
+('Castello Caldei', '카스텔로 칼데이', 2, 'Italy', NOW(), NOW()),
+('Gerard van Honthorst', '게라르드 반 혼토르스트', 2, 'Netherlands', NOW(), NOW()),
+('Rembrandt', '렘브란트', 2, 'Netherlands', NOW(), NOW()),
+('Peter Paul Rubens', '피터 파울 루벤스', 2, 'Germany', NOW(), NOW()),
+('Diego Velázquez', '디에고 벨라스케스', 2, 'Spain', NOW(), NOW()),
+('Johannes Vermeer', '요하네스 베르메르', 2, 'Netherlands', NOW(), NOW());
 
--- 2. 구스타프 클림트 (Gustav Klimt, painterId: 2)
-INSERT INTO `painting` (`paintingNameEn`, `paintingNameKr`, `painterId`, `movementId`, `createYear`, `imgPath`, `regDate`, `updateDate`)
-SELECT CONCAT('Klimt Artwork ', n), CONCAT('구스타프 클림트 작품 ', n), 2, 1, 1905, 
-CONCAT('C:\\jje_works\\sts5.0.1_workspace\\docentNote\\frontend\\public\\crawling_images\\Art_Nouveau\\Klimt\\klimt_', n, '.jpg'), NOW(), NOW()
-FROM (SELECT 0 n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19) AS numbers;
+-- 일러스트 화가
+INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
+('J. C. Leyendecker', '조셉 크리스천 레이엔데커', 3, 'USA', NOW(), NOW());
 
--- 3. 베르통 리브몽 (Berthon Livemont, painterId: 3)
-INSERT INTO `painting` (`paintingNameEn`, `paintingNameKr`, `painterId`, `movementId`, `createYear`, `imgPath`, `regDate`, `updateDate`)
-SELECT CONCAT('Livemont Artwork ', n), CONCAT('베르통 리브몽 작품 ', n), 3, 1, 1896, 
-CONCAT('C:\\jje_works\\sts5.0.1_workspace\\docentNote\\frontend\\public\\crawling_images\\Art_Nouveau\\Livemont\\livemont_', n, '.jpg'), NOW(), NOW()
-FROM (SELECT 0 n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19) AS numbers;
+-- 인상주의 화가
+INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
+('Edgar Degas', '에드가 드가', 4, 'France', NOW(), NOW()),
+('Édouard Manet', '에두아르 마네', 4, 'France', NOW(), NOW()),
+('Claude Monet', '클로드 모네', 4, 'France', NOW(), NOW()),
+('Berthe Morisot', '베르트 모리조', 4, 'France', NOW(), NOW()),
+('Camille Pissarro', '카미유 피사로', 4, 'France', NOW(), NOW()),
+('Pierre-Auguste Renoir', '오귀스트 르누아르', 4, 'France', NOW(), NOW()),
+('Joaquín Sorolla', '호아킨 소로야', 4, 'Spain', NOW(), NOW());
 
--- 4. 앙리 뫼니에 (Henri Meunier, painterId: 4)
-INSERT INTO `painting` (`paintingNameEn`, `paintingNameKr`, `painterId`, `movementId`, `createYear`, `imgPath`, `regDate`, `updateDate`)
-SELECT CONCAT('Meunier Artwork ', n), CONCAT('앙리 뫼니에 작품 ', n), 4, 1, 1898, 
-CONCAT('C:\\jje_works\\sts5.0.1_workspace\\docentNote\\frontend\\public\\crawling_images\\Art_Nouveau\\Meunier\\meunier_', n, '.jpg'), NOW(), NOW()
-FROM (SELECT 0 n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19) AS numbers;
+-- 탈인상주의 화가
+INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
+('Paul Cézanne', '폴 세잔', 5, 'France', NOW(), NOW()),
+('Paul Gauguin', '폴 고갱', 5, 'France', NOW(), NOW()),
+('Vincent van Gogh', '빈센트 반 고흐', 5, 'Netherlands', NOW(), NOW()),
+('Georges Seurat', '조르주 쇠라', 5, 'France', NOW(), NOW());
 
--- 5. 알폰스 무하 (Alphonse Mucha, painterId: 5)
-INSERT INTO `painting` (`paintingNameEn`, `paintingNameKr`, `painterId`, `movementId`, `createYear`, `imgPath`, `regDate`, `updateDate`)
-SELECT CONCAT('Mucha Artwork ', n), CONCAT('알폰스 무하 작품 ', n), 5, 1, 1895, 
-CONCAT('C:\\jje_works\\sts5.0.1_workspace\\docentNote\\frontend\\public\\crawling_images\\Art_Nouveau\\Mucha\\mucha_', n, '.jpg'), NOW(), NOW()
-FROM (SELECT 0 n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19) AS numbers;
+-- 리얼리즘 화가
+INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
+('Gustave Courbet', '귀스타브 쿠르베', 6, 'France', NOW(), NOW()),
+('Honoré Daumier', '오노레 도미에', 6, 'France', NOW(), NOW()),
+('Jean-François Millet', '장 프랑수아 밀레', 6, 'France', NOW(), NOW()),
+('Anders Zorn', '안데르스 소른', 6, 'Sweden', NOW(), NOW()),
+('Ilya Repin', '일리아 레핀', 6, 'Russia', NOW(), NOW()),
+('Jean-Baptiste Robie', '장 바티스트 로비', 6, 'Belgium', NOW(), NOW()),
+('Amélie Helga Lundahl', '아멜리 헬가 룬달', 6, 'Finland', NOW(), NOW());
 
--- 6. 케이 닐슨 (Kay Nielsen, painterId: 6)
-INSERT INTO `painting` (`paintingNameEn`, `paintingNameKr`, `painterId`, `movementId`, `createYear`, `imgPath`, `regDate`, `updateDate`)
-SELECT CONCAT('Nielsen Artwork ', n), CONCAT('케이 닐슨 작품 ', n), 6, 1, 1914, 
-CONCAT('C:\\jje_works\\sts5.0.1_workspace\\docentNote\\frontend\\public\\crawling_images\\Art_Nouveau\\Nielsen_K\\nielsen_k_', n, '.jpg'), NOW(), NOW()
-FROM (SELECT 0 n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19) AS numbers;
+-- 르네상스 화가
+INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
+('Leonardo da Vinci', '레오나르도 다 빈치', 7, 'Italy', NOW(), NOW()),
+('Michelangelo', '미켈란젤로', 7, 'Italy', NOW(), NOW());
+
+-- 로코코 화가
+INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
+('François Boucher', '프랑수아 부셰', 8, 'France', NOW(), NOW()),
+('Canaletto', '카날레토', 8, 'Italy', NOW(), NOW()),
+('Jean-Honoré Fragonard', '장 오노레 프라고나르', 8, 'France', NOW(), NOW()),
+('Thomas Gainsborough', '토머스 게인즈버러', 8, 'UK', NOW(), NOW()),
+('Élisabeth Vigée Le Brun', '엘리자베스 비제 르 브룅', 8, 'France', NOW(), NOW()),
+('Giovanni Battista Tiepolo', '조반니 바티스타 티에폴로', 8, 'Italy', NOW(), NOW()),
+('Jean-Antoine Watteau', '장 앙투안 와토', 8, 'France', NOW(), NOW());
+
+-- 낭만주의 화가
+INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
+('John Constable', '존 컨스터블', 9, 'UK', NOW(), NOW()),
+('Caspar David Friedrich', '카스파르 다비드 프리드리히', 9, 'Germany', NOW(), NOW()),
+('Francisco Goya', '프란시스코 고야', 9, 'Spain', NOW(), NOW()),
+('J. M. W. Turner', '조셉 말로드 윌리엄 터너', 9, 'UK', NOW(), NOW());
+
+-- 여기까지가 기본 데이터 
+
