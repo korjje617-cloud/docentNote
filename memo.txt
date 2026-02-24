@@ -6,6 +6,8 @@ http://localhost:8081/usr/home/main
 
 해야할 일
 
+article 관련은 지금은 완전히 고려하지 말고
+
 회원가입, 로그인
 리액트 화면으로 보이게
 

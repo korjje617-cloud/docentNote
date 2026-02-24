@@ -1,7 +1,6 @@
 DROP DATABASE IF EXISTS `docentNote`;
 CREATE DATABASE `docentNote`;
 USE `docentNote`;
-
 CREATE TABLE `member` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `loginId` VARCHAR(20) NOT NULL,
@@ -61,7 +60,7 @@ CREATE TABLE `reaction` (
 
 CREATE TABLE `painting` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `paintingNameEn` VARCHAR(100) NOT NULL,
+  `paintingNameEn` VARCHAR(255) NOT NULL,
   `paintingNameKr` VARCHAR(100) NOT NULL,
   `painterId` INT NOT NULL,
   `movementId` INT NOT NULL,
@@ -86,20 +85,10 @@ CREATE TABLE `Movement` (
   `moveNameKr` VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE `archiveMove` (
+CREATE TABLE `docent` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `movementId` INT NOT NULL,
-  `description` TEXT NOT NULL,
-  `regDate` DATETIME NOT NULL,
-  `updateDate` DATETIME NOT NULL
-);
-
-CREATE TABLE `archivePainter` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `painterId` INT NOT NULL,
-  `painterNameEn` VARCHAR(100) NOT NULL,
-  `painterNameKr` VARCHAR(100) NOT NULL,
-  `movementId` INT NOT NULL,
+  `paintingId` INT UNIQUE NOT NULL COMMENT '작품 하나당 도슨트 하나 (1:1)',
+  `body` LONGTEXT NOT NULL COMMENT 'GPT가 생성한 긴 도슨트 내용',
   `regDate` DATETIME NOT NULL,
   `updateDate` DATETIME NOT NULL
 );
@@ -113,7 +102,7 @@ CREATE TABLE `painting_like` (
 
 CREATE TABLE `archiveColor` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `colorName` VARCHAR(50) UNIQUE NOT NULL COMMENT '예: Red, Deep Blue',
+  `colorName` VARCHAR(50) UNIQUE NOT NULL,
   `min_r` INT NOT NULL,
   `max_r` INT NOT NULL,
   `min_g` INT NOT NULL,
@@ -125,13 +114,12 @@ CREATE TABLE `archiveColor` (
 
 CREATE TABLE `painting_color_map` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `regDate` DATETIME DEFAULT NOW(),
   `paintingId` INT NOT NULL,
-  `archiveColorId` INT COMMENT '매칭된 사전 색상 ID',
-  `raw_r` INT NOT NULL COMMENT 'API가 추출한 실제 R값',
-  `raw_g` INT NOT NULL COMMENT 'API가 추출한 실제 G값',
-  `raw_b` INT NOT NULL COMMENT 'API가 추출한 실제 B값',
-  `score` FLOAT COMMENT '색상 비중 (0~1)'
+  `archiveColorId` INT,
+  `raw_r` INT NOT NULL,
+  `raw_g` INT NOT NULL,
+  `raw_b` INT NOT NULL,
+  `score` FLOAT
 );
 
 ALTER TABLE `article` ADD FOREIGN KEY (`memberId`) REFERENCES `member` (`id`);
@@ -152,11 +140,7 @@ ALTER TABLE `painting` ADD FOREIGN KEY (`movementId`) REFERENCES `Movement` (`id
 
 ALTER TABLE `painter` ADD FOREIGN KEY (`movementId`) REFERENCES `Movement` (`id`);
 
-ALTER TABLE `archiveMove` ADD FOREIGN KEY (`movementId`) REFERENCES `Movement` (`id`);
-
-ALTER TABLE `archivePainter` ADD FOREIGN KEY (`painterId`) REFERENCES `painter` (`id`);
-
-ALTER TABLE `archivePainter` ADD FOREIGN KEY (`movementId`) REFERENCES `Movement` (`id`);
+ALTER TABLE `painting` ADD FOREIGN KEY (`id`) REFERENCES `docent` (`paintingId`);
 
 ALTER TABLE `painting_like` ADD FOREIGN KEY (`memberId`) REFERENCES `member` (`id`);
 
@@ -166,13 +150,18 @@ ALTER TABLE `painting_color_map` ADD FOREIGN KEY (`paintingId`) REFERENCES `pain
 
 ALTER TABLE `painting_color_map` ADD FOREIGN KEY (`archiveColorId`) REFERENCES `archiveColor` (`id`);
 
+
+
+
+
+
 -- 미술사조 목록
 INSERT INTO `Movement` (`moveNameEn`, `moveNameKr`) VALUES 
 ('Art Nouveau', '아르누보'),
 ('Baroque', '바로크'),
 ('Illustration', '일러스트'),
 ('Impressionism', '인상주의'),
-('Post-Impressionism', '탈인상주의'),
+('Post Impressionism', '탈인상주의'),
 ('Realism', '리얼리즘'),
 ('Renaissance', '르네상스'),
 ('Rococo', '로코코'),
@@ -207,7 +196,7 @@ INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `national
 ('Castello Caldei', '카스텔로 칼데이', 2, 'Italy', NOW(), NOW()),
 ('Gerard van Honthorst', '게라르드 반 혼토르스트', 2, 'Netherlands', NOW(), NOW()),
 ('Rembrandt Harmenszoon van Rijn', '렘브란트 하르먼손 판레인', 2, 'Netherlands', NOW(), NOW()),
-('Diego Velázquez', '디에고 벨라스케스', 2, 'Spain', NOW(), NOW()),
+('Diego Velazquez', '디에고 벨라스케스', 2, 'Spain', NOW(), NOW()),
 ('Johannes Vermeer', '요하네스 베르메르', 2, 'Netherlands', NOW(), NOW());
 
 -- 일러스트 화가
@@ -221,8 +210,8 @@ INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `national
 ('Claude Monet', '클로드 모네', 4, 'France', NOW(), NOW()),
 ('Berthe Morisot', '베르트 모리조', 4, 'France', NOW(), NOW()),
 ('Camille Pissarro', '카미유 피사로', 4, 'France', NOW(), NOW()),
-('Pierre-Auguste Renoir', '오귀스트 르누아르', 4, 'France', NOW(), NOW()),
-('Joaquín Sorolla', '호아킨 소로야', 4, 'Spain', NOW(), NOW());
+('Pierre Auguste Renoir', '오귀스트 르누아르', 4, 'France', NOW(), NOW()),
+('Joaquin Sorolla', '호아킨 소로야', 4, 'Spain', NOW(), NOW());
 
 -- 탈인상주의 화가
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
@@ -237,11 +226,10 @@ INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `national
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
 ('Gustave Courbet', '귀스타브 쿠르베', 6, 'France', NOW(), NOW()),
 ('Honore Daumier', '오노레 도미에', 6, 'France', NOW(), NOW()),
-('Jean-Francois Millet', '장 프랑수아 밀레', 6, 'France', NOW(), NOW()),
-('Anders Zorn', '안데르스 소른', 6, 'Sweden', NOW(), NOW()),
+('Jean Francois Millet', '장 프랑수아 밀레', 6, 'France', NOW(), NOW()),
 ('Ilya Repin', '일리아 레핀', 6, 'Russia', NOW(), NOW()),
-('Jean-Baptiste Robie', '장 바티스트 로비', 6, 'Belgium', NOW(), NOW()),
-('Amelie Helga Lundahl', '아멜리 헬가 룬달', 6, 'Finland', NOW(), NOW());
+('Jean Baptiste Robie', '장 바티스트 로비', 6, 'Belgium', NOW(), NOW()),
+('Anders Zorn', '안데르스 소른', 6, 'Sweden', NOW(), NOW());
 
 -- 르네상스 화가
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
@@ -252,11 +240,11 @@ INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `national
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
 ('Francois Boucher', '프랑수아 부셰', 8, 'France', NOW(), NOW()),
 ('Canaletto', '지오반니 안토니오 카날', 8, 'Italy', NOW(), NOW()),
-('Jean-Honore Fragonard', '장 오노레 프라고나르', 8, 'France', NOW(), NOW()),
+('Jean Honore Fragonard', '장 오노레 프라고나르', 8, 'France', NOW(), NOW()),
 ('Thomas Gainsborough', '토머스 게인즈버러', 8, 'UK', NOW(), NOW()),
 ('Elisabeth Vigee Le Brun', '엘리자베스 비제 르 브룅', 8, 'France', NOW(), NOW()),
 ('Giovanni Battista Tiepolo', '조반니 바티스타 티에폴로', 8, 'Italy', NOW(), NOW()),
-('Jean-Antoine Watteau', '장 앙투안 와토', 8, 'France', NOW(), NOW());
+('Jean Antoine Watteau', '장 앙투안 와토', 8, 'France', NOW(), NOW());
 
 -- 낭만주의 화가
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 
@@ -265,5 +253,3 @@ INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `national
 ('Caspar David Friedrich', '카스파르 다비드 프리드리히', 9, 'Germany', NOW(), NOW()),
 ('Francisco Goya', '프란시스코 고야', 9, 'Spain', NOW(), NOW()),
 ('J. M. W. Turner', '조셉 말로드 윌리엄 터너', 9, 'UK', NOW(), NOW());
-
--- 여기까지가 기본 데이터 
