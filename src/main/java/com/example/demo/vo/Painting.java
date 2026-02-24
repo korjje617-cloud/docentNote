@@ -15,8 +15,11 @@ public class Painting {
     private String paintingNameKr; // 한글 제목
     private int painterId; // 화가 ID (외래키)
     private int movementId; // 사조 ID (외래키)
-    private int createYear; // 제작 연도
-    private String imgPath; // 이미지 파일 경로
+    private String imgUrl; // 이미지 파일 경로
     private String regDate; // 등록 날짜
     private String updateDate; // 수정 날짜
+    
+ // JOIN 결과를 담기 위해 추가하는 필드
+    private String painterNameKr; // 화가 한글 이름
+    private String moveNameKr; // 시대사조 한글 이름
 }

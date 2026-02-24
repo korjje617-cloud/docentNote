@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.HomeRepository">
+
+<select id="getPaintingList" resultType="com.example.demo.vo.Painting">
+    SELECT 
+        p.*, 
+        pr.painterNameKr AS painterNameKr, 
+        m.moveNameKr AS moveNameKr  FROM painting AS p
+    INNER JOIN painter AS pr ON p.painterId = pr.id
+    INNER JOIN movement AS m ON p.movementId = m.id
+</select>
+
+</mapper>

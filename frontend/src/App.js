@@ -42,7 +42,7 @@ function App() {
           {/* 회원 관련 주소들 */}
           <Route path="/usr/member/login" element={<Login />} />
           <Route path="/usr/member/join" element={<Join />} />
-          <Route path="/usr/member/info" element={<Info />} />
+          {/*<Route path="/usr/member/info" element={<Info />} />*/}
 
           {/* 아카이브 관련 주소들 */}
           <Route path="/api/archive/docent" element={<Docent />} />
