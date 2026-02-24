@@ -61,7 +61,7 @@ public class ArchiveService {
 		for (Painting p : targets) {
 			try {
 				// 2. 구글 비전 API로 색상 확인
-				List<ColorInfo> extracted = colorAnalysisService.extractColors(p.getImgPath());
+				List<ColorInfo> extracted = colorAnalysisService.extractColors(p.getImgUrl());
 
 				if (extracted != null && !extracted.isEmpty()) {
 					ColorInfo top = extracted.get(0);

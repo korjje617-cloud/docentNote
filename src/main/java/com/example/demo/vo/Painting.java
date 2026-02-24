@@ -21,5 +21,7 @@ public class Painting {
     
  // JOIN 결과를 담기 위해 추가하는 필드
     private String painterNameKr; // 화가 한글 이름
+    private String painterNameEn; // 화가 영어 이름
     private String moveNameKr; // 시대사조 한글 이름
+    
 }

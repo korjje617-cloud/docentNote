@@ -13,16 +13,16 @@ export const Main = () => {
       .then((data) => {
         // 데이터가 정상적으로 들어있을 때만 로직을 실행
         if (data && data.length > 0) {
-          
+
           // 3. 날짜 기반 랜덤 로직: 매일 다른 그림을 뽑기 위한 "기준값(Seed)"을 만듦
           const now = new Date(); // 현재 시간/날짜 정보 가져오기
           // 년, 월, 일을 합쳐서 숫자 하나로 (예: 2026년 2월 24일 -> 20260224)
           const dateSeed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
-          
+
           // 4. 인덱스 계산: 날짜 숫자를 전체 그림 개수로 나눈 '나머지'를 구함
           // 예: 오늘 숫자가 24이고 그림이 10개면, 24 % 10 = 4 (항상 0~9 사이의 숫자만 나옴)
           const index = dateSeed % data.length;
-          
+
           // 5. 상태 업데이트: 계산된 인덱스에 해당하는 그림 한 장을 바구니(todayPainting)에 넣기
           setTodayPainting(data[index]);
         }
@@ -37,7 +37,7 @@ export const Main = () => {
   if (!todayPainting) {
     return (
       <div className="min-h-screen flex justify-center items-center font-song">
-        그림을 불러오는 중... 
+        그림을 불러오는 중...
       </div>
     );
   }
@@ -47,7 +47,7 @@ export const Main = () => {
     <div className="bg-[#F3F3F3] w-full min-h-screen font-song flex flex-col">
       <main className="flex-1 flex justify-center items-center py-20">
         <div className="flex gap-[100px] items-start">
-          
+
           {/* 왼쪽: 'Today is' 문구 */}
           <div className="font-corinthia text-[150px] leading-none mt-20">
             Today is
@@ -55,15 +55,18 @@ export const Main = () => {
 
           {/* 오른쪽: 그림 이미지와 한글 정보 섹션 */}
           <div className="flex flex-col items-end">
-            {/* 그림 프레임 (흰 배경에 그림자 효과) */}
-            <div className="w-[40vw] bg-white p-3 shadow-2xl">
-              <img 
-                src={todayPainting.imgUrl} // DB에서 가져온 이미지 경로 연동
-                alt={todayPainting.paintingNameKr} // 대체 텍스트
-                className="w-full"
-              />
+            {/* 액자 프레임 부분 */}
+            <div className="w-[40vw] p-4 shadow-2xl bg-gradient-to-br from-gray-200 via-white to-gray-50 border border-gray-100 rounded-sm">
+              {/* 실제 이미지 */}
+              <div className="overflow-hidden shadow-inner border border-gray-200">
+                <img
+                  src={todayPainting.imgUrl}
+                  alt={todayPainting.paintingNameKr}
+                  className="w-full h-auto block transform hover:scale-105 transition-transform duration-500"
+                />
+              </div>
             </div>
-            
+
             {/* 그림 상세 정보 (오른쪽 정렬) */}
             <div className="text-right mt-8">
               {/* 작품 한글 제목 */}

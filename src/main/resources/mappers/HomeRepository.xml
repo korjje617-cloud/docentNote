@@ -9,7 +9,8 @@
     SELECT 
         p.*, 
         pr.painterNameKr AS painterNameKr, 
-        m.moveNameKr AS moveNameKr  FROM painting AS p
+        pr.painterNameEn AS painterNameEn,  m.moveNameKr AS moveNameKr
+    FROM painting AS p
     INNER JOIN painter AS pr ON p.painterId = pr.id
     INNER JOIN movement AS m ON p.movementId = m.id
 </select>
