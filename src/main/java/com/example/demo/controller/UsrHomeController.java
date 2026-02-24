@@ -21,7 +21,7 @@ public class UsrHomeController {
 
 	// 2. 리액트에서 'http://localhost:8080/api/main/arts'로 요청하면 작동
 	@GetMapping("/api/main")
-	public List<Painting> getArts() {
+	public List<Painting> getpaintings() {
 		return homeService.getPaintingList();
 	}
 }

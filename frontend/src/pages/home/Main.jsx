@@ -36,8 +36,23 @@ export const Main = () => {
   // 6. 예외 처리: 서버에서 데이터를 가져오는 동안(todayPainting이 null일 때) 보여줄 화면
   if (!todayPainting) {
     return (
-      <div className="min-h-screen flex justify-center items-center font-song">
-        그림을 불러오는 중...
+      <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50 font-song-bold">
+        {/* 1. 로고: 천천히 커졌다 작아지는 애니메이션 적용 */}
+        <div className="animate-pulse mb-6">
+          <img src="/logo.svg" alt="로고" className="w-50 h-50" />
+        </div>
+
+        {/* 2. 안내 문구: 부드러운 색상과 크기 조절 */}
+        <div className="text-xl text-gray-600 tracking-widest">
+          오늘의 그림...
+        </div>
+
+        {/* 3. 하단에 작은 점들이 움직이는 로딩바 (선택사항) */}
+        <div className="mt-4 flex gap-1">
+          <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"></div>
+          <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+          <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+        </div>
       </div>
     );
   }
@@ -46,9 +61,10 @@ export const Main = () => {
   return (
     <div className="bg-[#F3F3F3] w-full min-h-screen font-song flex flex-col">
       <main className="flex-1 flex justify-center items-center py-20">
-        <div className="flex gap-[100px] items-start">
+        <div className="flex gap-[50px] items-start">
 
           {/* 왼쪽: 'Today is' 문구 */}
+          
           <div className="font-corinthia text-[150px] leading-none mt-20">
             Today is
           </div>
