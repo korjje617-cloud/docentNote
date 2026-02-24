@@ -57,23 +57,28 @@ export const Main = () => {
     );
   }
 
-  // 7. 실제 화면 렌더링: 데이터가 준비되면 아래 HTML 코드가 실행
   return (
     <div className="bg-[#F3F3F3] w-full min-h-screen font-song flex flex-col">
-      <main className="flex-1 flex justify-center items-center py-20">
-        <div className="flex gap-[50px] items-start">
+      <main className="flex-1 flex justify-center items-center py-10 xl:py-20 overflow-x-hidden">
+        {/* 1. xl:flex-row : 1280px 이상에서만 가로 배치. 그 이하에선 바로 세로(flex-col) 전환!
+          2. gap-0 : 기본 간격을 없애고 마이너스 마진으로 더 붙입니다.
+        */}
+        <div className="flex flex-col xl:flex-row items-center xl:items-start gap-10 mx-auto w-fit px-5">
 
-          {/* 왼쪽: 'Today is' 문구 */}
-          
-          <div className="font-corinthia text-[150px] leading-none mt-20">
+          {/* 왼쪽: 'Today is' 
+              - xl:mr-[40px] : 가로일 때 그림과의 간격
+              - xl:mt-32 : 가로 배치 시 그림 위치와 밸런스 조정
+          */}
+          <div className="font-corinthia text-[100px] lg:text-[130px] xl:text-[150px] leading-[0.7] xl:mt-32 xl:mr-[40px] shrink-0 select-none text-center xl:text-left z-10">
             Today is
           </div>
 
-          {/* 오른쪽: 그림 이미지와 한글 정보 섹션 */}
-          <div className="flex flex-col items-end">
-            {/* 액자 프레임 부분 */}
-            <div className="w-[40vw] p-4 shadow-2xl bg-gradient-to-br from-gray-200 via-white to-gray-50 border border-gray-100 rounded-sm">
-              {/* 실제 이미지 */}
+          {/* 오른쪽: 그림 + 정보 세트 */}
+          <div className="flex flex-col items-center xl:items-end shrink-0">
+            {/* - w-[600px] : 그림 크기 절대 유지
+               - max-w-[95vw] : 아주 작은 화면에서만 살짝 줄어들게 방어
+            */}
+            <div className="w-[95vw] sm:w-[500px] xl:w-[600px] p-4 shadow-2xl bg-gradient-to-br from-gray-200 via-white to-gray-50 border border-gray-100 rounded-sm">
               <div className="overflow-hidden shadow-inner border border-gray-200">
                 <img
                   src={todayPainting.imgUrl}
@@ -83,18 +88,15 @@ export const Main = () => {
               </div>
             </div>
 
-            {/* 그림 상세 정보 (오른쪽 정렬) */}
-            <div className="text-right mt-8">
-              {/* 작품 한글 제목 */}
-              <h2 className="text-[48px] mb-2 font-normal font-song-bold">
+            {/* 그림 상세 정보 (세로일 땐 중앙, 가로일 땐 오른쪽 정렬) */}
+            <div className="text-center xl:text-right mt-6 xl:mt-8 w-full">
+              <h2 className="text-[32px] lg:text-[40px] xl:text-[48px] mb-2 font-normal font-song-bold leading-tight break-keep">
                 {todayPainting.paintingNameKr}
               </h2>
-              {/* 화가 한글 이름 (JOIN으로 가져온 데이터) */}
-              <p className="text-[32px] text-gray-700 font-song-bold">
+              <p className="text-[24px] lg:text-[28px] xl:text-[32px] text-gray-700 font-song-bold">
                 {todayPainting.painterNameKr}
               </p>
-              {/* 시대사조 한글 이름 (JOIN으로 가져온 데이터) */}
-              <p className="text-[20px] text-gray-400 font-song-bold">
+              <p className="text-[16px] lg:text-[18px] xl:text-[20px] text-gray-400 font-song-bold">
                 {todayPainting.moveNameKr} 시대
               </p>
             </div>
