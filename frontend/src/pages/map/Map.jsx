@@ -6,7 +6,7 @@ const Map = () => {
     // 설정: 스크립트 로드 최적화 (LoadScript 대신 사용)
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: "키 삭제",
+        googleMapsApiKey: "인증키 삭제",
         language: "ko"
     });
 
@@ -46,9 +46,9 @@ const Map = () => {
     // 설정: 불필요한 마커 재렌더링 방지
     const renderMarkers = useMemo(() => {
         return currentItems.map((item, idx) => (
-            <MarkerF 
-                key={`${item.fcltyNm}-${idx}`} 
-                position={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) }} 
+            <MarkerF
+                key={`${item.fcltyNm}-${idx}`}
+                position={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) }}
                 label={{ text: item.fcltyNm, fontSize: '12px', fontWeight: 'bold' }}
             />
         ));
@@ -65,13 +65,15 @@ const Map = () => {
                 <div style={{ flex: '1.5', overflowY: 'auto', border: '1px solid #ddd', borderRadius: '10px', padding: '15px', backgroundColor: '#f9f9f9' }}>
                     {currentItems.length > 0 ? (
                         currentItems.map((item, index) => (
-                            <div 
-                                key={index} 
-                                style={listItemStyle} 
+                            <div
+                                key={index}
+                                style={listItemStyle}
                                 onClick={() => setMapCenter({ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) })}
                             >
                                 <h3 style={nameStyle}>{item.fcltyNm}</h3>
-                                <p style={infoStyle}>📍 {item.rdnmadr || item.lnmadr}</p>
+                                <p style={infoStyle}>📍 주소: {item.rdnmadr || item.lnmadr}</p>
+                                <p style={infoStyle}>📞 전화: {item.phoneNumber}</p>
+                                <p style={infoStyle}>⏰ 운영시간: {item.weekdayOperOpenHhmm} ~ {item.weekdayOperColseHhmm}</p>
                             </div>
                         ))
                     ) : (
@@ -81,9 +83,9 @@ const Map = () => {
                     <div style={paginationStyle}>
                         {startPage > 1 && <button onClick={() => setCurrentPage(startPage - 1)} style={buttonStyle}>이전</button>}
                         {visiblePageNumbers.map(number => (
-                            <button 
-                                key={number} 
-                                onClick={() => setCurrentPage(number)} 
+                            <button
+                                key={number}
+                                onClick={() => setCurrentPage(number)}
                                 style={{ ...buttonStyle, backgroundColor: currentPage === number ? '#333' : '#fff', color: currentPage === number ? '#fff' : '#000' }}
                             >
                                 {number}

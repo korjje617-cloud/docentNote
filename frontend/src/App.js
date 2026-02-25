@@ -7,14 +7,18 @@ import Footer from './components/common/Footer';
 
 // -- 각 페이지 컴포넌트 불러오기 --
 import Main from './pages/home/Main';
+
 //import List from './pages/article/List';
 //import Detail from './pages/article/Detail';
 //import Write from './pages/article/Write';
 //import Modify from './pages/article/Modify';
+
 import Login from './pages/member/Login';
 import Join from './pages/member/Join';
+
 import Docent from './pages/archive/Docent';
-import ArchivePage from './pages/archive/ArchivePage';
+import Total from './pages/archive/Total';
+
 import Map from './pages/map/Map';
 
 
@@ -46,7 +50,7 @@ function App() {
 
           {/* 아카이브 관련 주소들 */}
           <Route path="/api/archive/docent" element={<Docent />} />
-          <Route path="/api/archive/main" element={<ArchivePage />} />
+          <Route path="/api/archive/total" element={<Total />} />
 
           {/* 미술관 지도 */}
           <Route path="/api/map/museum" element={<Map />} />
