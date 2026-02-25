@@ -4,7 +4,7 @@ import Masonry from 'react-masonry-css';
 import '../../components/common/Archive.css'; 
 import ArchiveMenu from '../../components/common/ArchiveMenu.js';
 
-export default function Total() {
+export default function Color() {
     const [paintings, setPaintings] = useState([]); 
 
     useEffect(() => {
@@ -14,7 +14,6 @@ export default function Total() {
     const fetchAllPaintings = async () => {
         try {
             // 메인 페이지와 동일한 서버 포트와 데이터를 확인
-            // 저 서버 주소를 통해서 데이터를 가져온다
             const response = await axios.get('http://localhost:8081/api/main');
             console.log("서버 응답 데이터:", response.data);
             
@@ -25,8 +24,6 @@ export default function Total() {
         }
     };
 
-    // 디바이스 크기에 따라 레이아웃이 변경되는 지점
-    // 기본 4줄, 너비가 줄어들 때 마다 한줄씩 줄어든다
     const breakpointColumnsObj = {
         default: 4,
         1100: 3,
@@ -54,7 +51,7 @@ export default function Total() {
                             {paintings.map((p) => (
                                 <div key={p.id} className="flex flex-col items-start bg-[#F1F1F1] p-3 rounded-[18px] mb-6 shadow-sm">
                                     <img
-                                        /* replace 없이 그대로 사용 */
+                                        /* 🌟 메인 페이지처럼 replace 없이 그대로 사용 */
                                         src={p.imgUrl} 
                                         className="w-full rounded-[18px] mb-4 object-cover"
                                         alt={p.paintingNameKr}
@@ -79,3 +76,4 @@ export default function Total() {
         </div>
     );
 }
+

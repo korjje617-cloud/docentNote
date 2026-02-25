@@ -18,6 +18,9 @@ import Join from './pages/member/Join';
 
 import Docent from './pages/archive/Docent';
 import Total from './pages/archive/Total';
+import Painter from './pages/archive/Painter';
+import Movement from './pages/archive/Movement';
+import Color from './pages/archive/Color';
 
 import Map from './pages/map/Map';
 
@@ -51,6 +54,9 @@ function App() {
           {/* 아카이브 관련 주소들 */}
           <Route path="/api/archive/docent" element={<Docent />} />
           <Route path="/api/archive/total" element={<Total />} />
+          <Route path="/api/archive/painter" element={<Painter />} />
+          <Route path="/api/archive/movement" element={<Movement />} />
+          <Route path="/api/archive/color" element={<Color />} />
 
           {/* 미술관 지도 */}
           <Route path="/api/map/museum" element={<Map />} />

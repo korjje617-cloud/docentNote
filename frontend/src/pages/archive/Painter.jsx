@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Masonry from 'react-masonry-css'; 
-import '../../components/common/Archive.css'; 
+import Masonry from 'react-masonry-css';
+import '../../components/common/Archive.css';
 import ArchiveMenu from '../../components/common/ArchiveMenu.js';
 
-export default function Total() {
-    const [paintings, setPaintings] = useState([]); 
+export default function Painter() {
+    const [paintings, setPaintings] = useState([]);
 
     useEffect(() => {
         fetchAllPaintings();
@@ -14,10 +14,9 @@ export default function Total() {
     const fetchAllPaintings = async () => {
         try {
             // 메인 페이지와 동일한 서버 포트와 데이터를 확인
-            // 저 서버 주소를 통해서 데이터를 가져온다
             const response = await axios.get('http://localhost:8081/api/main');
             console.log("서버 응답 데이터:", response.data);
-            
+
             // 데이터 저장
             setPaintings(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
@@ -25,8 +24,6 @@ export default function Total() {
         }
     };
 
-    // 디바이스 크기에 따라 레이아웃이 변경되는 지점
-    // 기본 4줄, 너비가 줄어들 때 마다 한줄씩 줄어든다
     const breakpointColumnsObj = {
         default: 4,
         1100: 3,
@@ -43,7 +40,7 @@ export default function Total() {
                         <span className="text-black text-sm">{"더 많은 그림을 감상해보세요"}</span>
                     </div>
 
-                    <ArchiveMenu/>
+                    <ArchiveMenu />
 
                     <div className="w-full">
                         <Masonry
@@ -54,13 +51,13 @@ export default function Total() {
                             {paintings.map((p) => (
                                 <div key={p.id} className="flex flex-col items-start bg-[#F1F1F1] p-3 rounded-[18px] mb-6 shadow-sm">
                                     <img
-                                        /* replace 없이 그대로 사용 */
-                                        src={p.imgUrl} 
+                                        /* 🌟 메인 페이지처럼 replace 없이 그대로 사용 */
+                                        src={p.imgUrl}
                                         className="w-full rounded-[18px] mb-4 object-cover"
                                         alt={p.paintingNameKr}
                                         /* 이미지 주소가 잘못되었을 경우를 대비한 보험 */
                                         onError={(e) => {
-                                            e.target.onerror = null; 
+                                            e.target.onerror = null;
                                             e.target.src = "https://via.placeholder.com/300?text=Image+Not+Found";
                                         }}
                                     />

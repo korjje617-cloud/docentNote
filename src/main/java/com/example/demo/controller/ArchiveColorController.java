@@ -8,35 +8,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.service.ArchiveService;
+import com.example.demo.service.ArchiveColorService;
 import com.example.demo.vo.Painting;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController // JSP 경로 대신 데이터를 리턴하도록 설정
 @RequestMapping("/api/archive") // API 주소임을 명시하기 위해 /api를 붙이는 것이 관례
-public class ArchiveController {
+public class ArchiveColorController {
 
     @Autowired
-    private ArchiveService archiveService;
-
-    // 1. 전체 목록 (React: axios.get("/api/archive/main"))
-    @GetMapping("/main")
-    public List<Painting> showMain() {
-        // DB에서 데이터를 가져옴 (JSON으로 자동 변환됨)
-        return archiveService.getPaintings();
-    }
-
-    // 2. 사조별 필터링
-    @GetMapping("/movement/{id}")
-    public List<Painting> showByMovement(@PathVariable("id") int id) {
-        return archiveService.getByMovementId(id);
-    }
-
-    // 3. 화가별 필터링
-    @GetMapping("/painter/{id}")
-    public List<Painting> showByPainter(@PathVariable("id") int id) {
-        return archiveService.getByPainterId(id);
-    }
+    private ArchiveColorService archiveService;
 
     // 4. 색상별 필터링
     @GetMapping("/color/{colorName}")

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.demo.service.ArchiveService;
+import com.example.demo.service.ArchiveColorService;
 import com.example.demo.vo.Painting;
 
 @CrossOrigin(origins = "http://localhost:3000")

@@ -5,16 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.vo.Painting;
-import com.example.demo.repository.ArchiveRepository;
+import com.example.demo.repository.ArchiveColorRepository;
 import com.example.demo.vo.ArchiveColor;
 import com.example.demo.vo.PaintingColorMap;
 import com.google.cloud.vision.v1.ColorInfo; // 구글 API 색상 정보 클래스
 
 @Service
-public class ArchiveService {
+public class ArchiveColorService {
 
 	@Autowired
-	private ArchiveRepository archiveRepository;
+	private ArchiveColorRepository archiveRepository;
 
 	@Autowired
 	private ColorAnalysisService colorAnalysisService; // 구글 비전 API 호출 전용 서비스

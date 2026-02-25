@@ -7,7 +7,7 @@ import com.example.demo.vo.ArchiveColor;
 import com.example.demo.vo.PaintingColorMap;
 
 @Mapper
-public interface ArchiveRepository {
+public interface ArchiveColorRepository {
     // 기존 조회 메서드
     List<Painting> getPaintings();
     List<Painting> getByMovementId(int id);
