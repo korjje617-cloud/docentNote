@@ -25,3 +25,4 @@ public class UsrHomeController {
 		return homeService.getPaintingList();
 	}
 }
+

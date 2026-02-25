@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.ArchiveColorRepository">
+
+    <select id="selectAllArchiveColors" resultType="com.example.demo.vo.ArchiveColor">
+        SELECT * FROM archiveColor
+    </select>
+
+    <insert id="insertPaintingColorMap">
+        INSERT INTO painting_color_map (paintingId, archiveColorId, raw_r, raw_g, raw_b, score)
+        VALUES (#{paintingId}, #{archiveColorId}, #{raw_r}, #{raw_g}, #{raw_b}, #{score})
+    </insert>
+
+<select id="selectUnanalyzedPaintings" resultType="com.example.demo.vo.Painting">
+    SELECT * FROM painting 
+    WHERE id NOT IN (SELECT paintingId FROM painting_color_map)
+</select>
+
+<select id="selectPaintingsByColorId" resultType="com.example.demo.vo.Painting">
+    SELECT p.id, p.paintingNameKr, pt.painterNameKr, p.imgUrl
+    FROM painting p
+    INNER JOIN painting_color_map pcm ON p.id = pcm.paintingId
+    INNER JOIN painter pt ON p.painterId = pt.id
+    WHERE pcm.archiveColorId = #{colorId}
+    GROUP BY p.id
+    ORDER BY MAX(pcm.score) DESC
+</select>
+
+</mapper>

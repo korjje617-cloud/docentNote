@@ -1,6 +1,8 @@
 DROP DATABASE IF EXISTS `docentNote`;
 CREATE DATABASE `docentNote`;
 USE `docentNote`;
+
+
 CREATE TABLE `member` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `loginId` VARCHAR(20) NOT NULL,
@@ -168,18 +170,40 @@ INSERT INTO `Movement` (`moveNameEn`, `moveNameKr`) VALUES
 ('Romanticism', '낭만주의');
 
 -- 색상 데이터 
-INSERT INTO `archiveColor` (`colorName`, `min_r`, `max_r`, `min_g`, `max_g`, `min_b`, `max_b`, `regDate`) VALUES 
-('Red', 120, 255, 0, 120, 0, 120, NOW()),      -- 빨강 (범위 하향)
-('Orange', 180, 255, 80, 180, 0, 120, NOW()),   -- 주황
-('Yellow', 180, 255, 160, 255, 0, 160, NOW()),  -- 노랑 (녹색기 도는 노랑 포함)
-('Green', 0, 180, 80, 255, 0, 180, NOW()),     -- 초록
-('Blue', 0, 180, 0, 200, 140, 255, NOW()),     -- 파랑
-('Navy', 0, 100, 0, 100, 60, 200, NOW()),      -- 남색
-('Purple', 80, 220, 0, 120, 130, 255, NOW()),   -- 보라
-('Pink', 180, 255, 80, 220, 130, 255, NOW()),   -- 분홍
-('Black', 0, 70, 0, 70, 0, 70, NOW()),         -- 검정 (기준 상향)
-('White', 180, 255, 180, 255, 180, 255, NOW()), -- 하양 (회색빛 하양까지 포함)
-('Brown', 50, 200, 20, 160, 0, 120, NOW());     -- 갈색 (매우 넓게 설정)
+INSERT INTO `archiveColor` (`id`, `colorName`, `min_r`, `max_r`, `min_g`, `max_g`, `min_b`, `max_b`, `regDate`) VALUES 
+
+-- Red: 유지 (범위 적절)
+(1,  'Red',    210, 255,  0,  50,   0,  50,  NOW()),
+
+-- Orange: G 상한을 낮춤. 기존 170은 너무 높아서 초록/노랑과 겹쳤음
+(2,  'Orange', 220, 255, 100, 160,  0,  50,  NOW()),
+
+-- Yellow: G 하한을 올림. 기존 210은 낮아서 주황과 겹쳤음
+(3,  'Yellow', 200, 255, 200, 255,  0,  80,  NOW()),
+
+-- Green: R 상한을 낮추고 G 하한을 올려 주황/노랑과 명확히 분리
+-- 핵심 수정: R을 0~60으로 엄격히 제한, G는 130 이상으로 올림
+(4,  'Green',   0,  60, 130, 255,   0,  90,  NOW()),
+
+-- Blue: G 상한을 더 낮춤. 기존 90은 청록과 혼동됨
+(5,  'Blue',    0,  80,  0,  70,  180, 255,  NOW()),
+
+-- Navy: B 하한을 올림. 기존 100은 너무 낮아 파랑 그림이 남색으로 빠졌던 원인
+-- 핵심 수정: B를 130 이상으로 올려 Blue(180↑)와 명확히 구분
+(6,  'Navy',    0,  60,  0,  60,  100, 175,  NOW()),
+
+-- Purple: 유지
+(7,  'Purple', 120, 200,  0,  80, 140, 230,  NOW()),
+
+-- Pink: 핵심 수정. 기존 범위가 너무 넓어서 온갖 색이 들어왔음
+-- R은 높고, G와 B는 중간~높음이되 서로 비슷한 수준이어야 분홍
+(8,  'Pink',   220, 255, 140, 200, 170, 230,  NOW()),
+
+-- Black, White, Brown: 유지
+(9,  'Black',   0,  40,  0,  40,   0,  40,  NOW()),
+(10, 'White',  220, 255, 220, 255, 220, 255,  NOW()),
+(11, 'Brown',  100, 170, 50, 110,   0,  60,  NOW());
+
 
 -- 아르누보 화가 데이터
 INSERT INTO `painter` (`painterNameEn`, `painterNameKr`, `movementId`, `nationality`, `regDate`, `updateDate`) VALUES 

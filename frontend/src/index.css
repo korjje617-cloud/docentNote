@@ -72,3 +72,74 @@ html, body, #root {
   -webkit-mask-composite: destination-in;
   mask-composite: intersect;
 }
+
+/* 🌟 [modify] 네모난 모양과 정렬 수정 */
+.c-button {
+  /* 리액트에서 넘겨줄 변수들 */
+  color: var(--btn-color);
+  background-color: rgba(0, 0, 0, 0); /* 버튼 내 배경색 */
+  border: 2px solid var(--btn-color);
+  
+  /* 🌟 [change] 네모난 모양을 위해 radius를 줄임 (완전 직각은 0px) */
+  border-radius: 4px; 
+  
+  /* 🌟 [change] 간격이 좁아지므로 패딩을 조금 줄여서 균형을 맞춤 */
+  padding: 6px 16px; 
+  
+  font-size: 14px;
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+
+  /* 🌟 [fix] 미묘한 빈 공간 해결: Flex로 중앙 정렬하여 수직/수평 공간을 꽉 채움 */
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  /* 버튼 자체의 마진이나 높이 문제일 수 있으므로 line-height 조정 */
+  line-height: 1.2; 
+}
+
+/* 🌟 [check] 마우스 호버(Hover) OR 클릭 상태(Active)일 때 글씨 색상 변경 */
+.c-button:hover,
+.c-button.active { /* .active 추가 */
+  color: var(--text-color, #ffffff); 
+}
+
+/* 물방울 상자 (그대로 유지) */
+.c-button__blobs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  filter: url(#goo);
+}
+
+/* 물방울 개별 설정 (그대로 유지) */
+.c-button__blobs div {
+  position: absolute;
+  top: 100%; 
+  width: 40%; /* 너비도 살짝 넓혀서 빈틈 방지 */
+  
+  /* 🔥 여기가 핵심입니다! 높이를 100%에서 150%로 팍 늘려주세요! */
+  height: 150%; 
+  
+  background-color: var(--btn-color);
+  border-radius: 40%; 
+  transition: top 0.4s ease;
+}
+
+/* 시간차 설정 (그대로 유지) */
+.c-button__blobs div:nth-child(1) { left: -5%; transition-delay: 0s; }
+.c-button__blobs div:nth-child(2) { left: 30%; transition-delay: 0.1s; }
+.c-button__blobs div:nth-child(3) { left: 66%; transition-delay: 0.2s; }
+
+/* 🌟 [save] 호버 상태거나 활성(Active) 상태면 물방울이 올라와서 유지됨 */
+.c-button:hover .c-button__blobs div,
+.c-button.active .c-button__blobs div { /* .active 추가 */
+  top: -10%;
+}

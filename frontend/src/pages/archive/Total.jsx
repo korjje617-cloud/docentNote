@@ -5,20 +5,28 @@ import '../../components/common/Archive.css';
 import ArchiveMenu from '../../components/common/ArchiveMenu.js';
 
 export default function Total() {
+	// 데이터를 담을 빈 목록 만들기
     const [paintings, setPaintings] = useState([]); 
-
+	
+    // useEffect = 화면이 처음 나타나면 딱 한번 이 행동을 해라
+	// 지금은 데이터를 가져오라는 함수 실행 명령을 내리고있다
     useEffect(() => {
         fetchAllPaintings();
     }, []);
-
+	
+    // 함수 실행
+    // async, await 는 데이터를 가지고 올 때 잠시 기다리라는 뜻
+    // 데이터가 다 오지도 않았는데 다음 코드가 실행되는 걸 막는다
     const fetchAllPaintings = async () => {
         try {
-            // 메인 페이지와 동일한 서버 포트와 데이터를 확인
-            // 저 서버 주소를 통해서 데이터를 가져온다
+            // 여기도 메인 페이지와 동일한 서버 주소 활용
+            // axios.get('주소'): 지정된 주소에 있는 서버에게 "데이터 좀 보내달라고 요청
             const response = await axios.get('http://localhost:8081/api/main');
             console.log("서버 응답 데이터:", response.data);
             
             // 데이터 저장
+            // 안전성 검사 : Array.isArray(response.data)
+            // 서버가 보낸 결과가 진짜 배열인지 확인
             setPaintings(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error("데이터 로딩 실패:", error);
