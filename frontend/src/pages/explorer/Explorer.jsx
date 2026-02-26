@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import Button from '../../components/common/Button';
+
 export default function Explorer() {
 	const [allPaintings, setAllPaintings] = useState([]); // 전체 그림 목록
 	const [history, setHistory] = useState([]); // 본 그림들의 인덱스 순서 기록
@@ -50,14 +52,19 @@ export default function Explorer() {
 
 	return (
 		<div className="flex flex-col min-h-screen bg-[#333333]">
+			<Button />
 			<div className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
 
-				{/* 스포트라이트 조명 */}
+				{/* 2. 조명 이미지 (수정된 포인트!) */}
 				<div
 					className="absolute inset-0 z-10 pointer-events-none"
 					style={{
 						backgroundImage: "url('https://storage.googleapis.com/tagjs-prod.appspot.com/v1/Xkz4x9yRgw/3l405byc_expires_30_days.png')",
-						backgroundSize: 'contain', backgroundPosition: 'center top', backgroundRepeat: 'no-repeat', opacity: 0.8
+						backgroundSize: '60% 100%', // 화면 가로세로에 꽉 맞춤
+						backgroundPosition: 'top center',
+						backgroundRepeat: 'no-repeat',
+						mixBlendMode: 'screen', // 검은 배경을 날리고 빛만 남김
+						opacity: 0.9
 					}}
 				></div>
 
@@ -65,7 +72,7 @@ export default function Explorer() {
 
 					{/* --- 왼쪽 액자 (이전) --- */}
 					<div onClick={handlePrev} className="flex flex-col items-center opacity-50 hover:opacity-100 transition-all duration-300 cursor-pointer group">
-						<div className="w-[250px] p-3 shadow-2xl bg-gradient-to-br from-gray-300 via-white to-gray-200 border border-gray-100 rounded-sm transform group-hover:-translate-x-2 transition-transform">
+						<div className="w-[250px] p-3 card shadow-2xl bg-gradient-to-br from-gray-300 via-white to-gray-200 border border-gray-100 rounded-sm transform group-hover:-translate-x-2 transition-transform">
 							<div className="aspect-[3/4] overflow-hidden shadow-inner border border-gray-300 bg-[#222222] flex items-center justify-center">
 								<span className="text-white text-6xl font-thin select-none">←</span>
 							</div>
@@ -74,25 +81,25 @@ export default function Explorer() {
 
 					{/* --- 중앙 액자 --- */}
 					<div className="flex flex-col items-center shrink-0">
-						<div className="w-[450px] xl:w-[550px] p-4 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] bg-gradient-to-br from-gray-200 via-white to-gray-50 border border-gray-100 rounded-sm">
+						<div className="w-[450px] xl:w-[550px] card p-4 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] bg-gradient-to-br from-gray-200 via-white to-gray-50 border border-gray-100 rounded-sm">
 							<div className="overflow-hidden shadow-inner border border-gray-200 bg-white">
 								<img
 									src={currentPainting.imgUrl}
-									className="w-full h-auto block transform hover:scale-105 transition-transform duration-500"
+									className="w-full h-auto block transform hover:scale-105 transition-transform duration-500 select-none"
 									alt="Artwork"
 								/>
 							</div>
 						</div>
-						<h1 className="text-white text-4xl font-song-bold mt-8 tracking-tight drop-shadow-lg">
+						<h1 className="text-white text-4xl font-song-bold mt-8 tracking-tight drop-shadow-lg select-none">
 							{"이 작품은 어떠신가요?"}
 						</h1>
 					</div>
 
 					{/* --- 오른쪽 액자 (다음) --- */}
 					<div onClick={handleNext} className="flex flex-col items-center opacity-50 hover:opacity-100 transition-all duration-300 cursor-pointer group">
-						<div className="w-[250px] p-3 shadow-2xl bg-gradient-to-br from-gray-300 via-white to-gray-200 border border-gray-100 rounded-sm transform group-hover:translate-x-2 transition-transform">
+						<div className="w-[250px] card p-3 shadow-2xl bg-gradient-to-br from-gray-300 via-white to-gray-200 border border-gray-100 rounded-sm transform group-hover:translate-x-2 transition-transform">
 							<div className="aspect-[3/4] overflow-hidden shadow-inner border border-gray-300 bg-[#222222] flex items-center justify-center">
-								<span className="text-white text-6xl font-thin">→</span>
+								<span className="text-white text-6xl font-thin select-none">→</span>
 							</div>
 						</div>
 					</div>

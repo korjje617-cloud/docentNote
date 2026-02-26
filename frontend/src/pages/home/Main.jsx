@@ -78,7 +78,7 @@ export const Main = () => {
             {/* - w-[600px] : 그림 크기 절대 유지
                - max-w-[95vw] : 아주 작은 화면에서만 살짝 줄어들게 방어
             */}
-            <div className="w-[95vw] sm:w-[500px] xl:w-[600px] p-4 shadow-2xl bg-gradient-to-br from-gray-200 via-white to-gray-50 border border-gray-100 rounded-sm">
+            <div className="w-[95vw] sm:w-[500px] xl:w-[600px] card p-4 shadow-2xl bg-gradient-to-br from-gray-200 via-white to-gray-50 border border-gray-100 rounded-sm">
               <div className="overflow-hidden shadow-inner border border-gray-200">
                 <img
                   src={todayPainting.imgUrl}
