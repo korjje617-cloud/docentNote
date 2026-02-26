@@ -73,19 +73,16 @@ html, body, #root {
   mask-composite: intersect;
 }
 
-/* 🌟 [modify] 네모난 모양과 정렬 수정 */
+/* 🌟 [change] 기본 글씨색과 테두리색을 따로 받을 수 있게 수정 */
 .c-button {
-  /* 리액트에서 넘겨줄 변수들 */
-  color: var(--btn-color);
-  background-color: rgba(0, 0, 0, 0); /* 버튼 내 배경색 */
-  border: 2px solid var(--btn-color);
+  /* --default-text가 있으면 쓰고, 없으면 --btn-color를 쓴다는 뜻! */
+  color: var(--default-text, var(--btn-color)); 
+  background-color: rgba(255, 255, 255, 0);
+  /* --border-color가 있으면 쓰고, 없으면 --btn-color를 씀 */
+  border: 2px solid var(--border-color, var(--btn-color)); 
   
-  /* 🌟 [change] 네모난 모양을 위해 radius를 줄임 (완전 직각은 0px) */
-  border-radius: 4px; 
-  
-  /* 🌟 [change] 간격이 좁아지므로 패딩을 조금 줄여서 균형을 맞춤 */
-  padding: 6px 16px; 
-  
+  border-radius: 4px;
+  padding: 6px 16px;
   font-size: 14px;
   font-weight: bold;
   position: relative;
@@ -93,13 +90,10 @@ html, body, #root {
   overflow: hidden;
   cursor: pointer;
   transition: color 0.3s ease, border-color 0.3s ease;
-
-  /* 🌟 [fix] 미묘한 빈 공간 해결: Flex로 중앙 정렬하여 수직/수평 공간을 꽉 채움 */
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  /* 버튼 자체의 마진이나 높이 문제일 수 있으므로 line-height 조정 */
-  line-height: 1.2; 
+  line-height: 1.2;
 }
 
 /* 🌟 [check] 마우스 호버(Hover) OR 클릭 상태(Active)일 때 글씨 색상 변경 */

@@ -22,8 +22,7 @@
     INNER JOIN painting_color_map pcm ON p.id = pcm.paintingId
     INNER JOIN painter pt ON p.painterId = pt.id
     WHERE pcm.archiveColorId = #{colorId}
-    GROUP BY p.id
-    ORDER BY MAX(pcm.score) DESC
+    ORDER BY pcm.score DESC
 </select>
 
 </mapper>

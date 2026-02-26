@@ -98,26 +98,34 @@ export default function Color() {
                             <div className="c-button__blobs"><div></div><div></div><div></div></div>
                         </button>
 
-                        {/* 🌟 색상별 버튼 */}
-                        {colors.map((c) => {
-                            const isLightColor = ['White', 'Yellow'].includes(c.colorName);
+                        {/* 색상 배열 돌리기 */}
+{colors.map((c) => {
+    // [check] 글씨를 검정색으로 해야 하는 밝은 색상들
+    const isLightColor = ['White', 'Yellow'].includes(c.colorName);
+    // 🌟 [check] 현재 그리는 버튼이 'White'인지 확인
+    const isWhite = c.colorName === 'White';
 
-                            return (
-                                <button
-                                    key={c.id}
-                                    onClick={() => handleColorClick(c.id)}
-                                    // [check] 주소창의 colorId(문자열)와 현재 버튼의 id(숫자)를 비교해서 같으면 활성화시킵니다.
-                                    className={`c-button c-button--gooey shadow-sm ${Number(colorId) === c.id ? 'active' : ''}`}
-                                    style={{
-                                        '--btn-color': c.colorName,
-                                        '--text-color': isLightColor ? 'black' : 'white'
-                                    }}
-                                >
-                                    {c.colorName}
-                                    <div className="c-button__blobs"><div></div><div></div><div></div></div>
-                                </button>
-                            );
-                        })}
+    return (
+        <button
+            key={c.id}
+            onClick={() => handleColorClick(c.id)}
+            className={`c-button c-button--gooey ${Number(colorId) === c.id ? 'active' : ''}`}
+            style={{
+                '--btn-color': c.colorName, // 기본 색상
+                
+                // 🌟 [set] 흰색(White) 버튼을 위한 특별한 색상 설정!
+                '--border-color': isWhite ? '#D1D5DB' : c.colorName, // 테두리는 뚜렷한 연회색
+                '--default-text': isWhite ? '#4B5563' : c.colorName, // 평소 글씨는 짙은 회색
+                '--blob-color': isWhite ? '#F3F4F6' : c.colorName,   // 물방울은 배경과 구분되는 아주 연한 회색
+                
+                '--text-color': isLightColor ? 'black' : 'white'     // 채워졌을 때 글씨는 검정색
+            }}
+        >
+            {c.colorName}
+            <div className="c-button__blobs"><div></div><div></div><div></div></div>
+        </button>
+    );
+})}
                     </div>
 
                     {/* 갤러리 섹션 */}

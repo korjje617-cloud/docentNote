@@ -22,6 +22,8 @@ import Painter from './pages/archive/Painter';
 import Movement from './pages/archive/Movement';
 import Color from './pages/archive/Color';
 
+import Explorer from './pages/explorer/Explorer';
+
 import Map from './pages/map/Map';
 
 
@@ -44,7 +46,9 @@ function App() {
           <Route path="/usr/article/write" element={<Write />} />
           <Route path="/usr/article/modify" element={<Modify />} />
           */}
-          
+
+          {/* 탐색 */}
+           <Route path="/api/explorer" element={<Explorer />} />
           
           {/* 회원 관련 주소들 */}
           <Route path="/usr/member/login" element={<Login />} />

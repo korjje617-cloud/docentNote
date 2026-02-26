@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   // 🌟 2. 텍스트와 이동할 경로(path)를 짝지어줍니다.
   const navItems = [
-    { name: "탐색", path: "/" },
+    { name: "탐색", path: "/api/explorer" },
     { name: "아카이브", path: "/api/archive/total" },
     { name: "미술관 지도", path: "/api/map/museum" }
   ];
