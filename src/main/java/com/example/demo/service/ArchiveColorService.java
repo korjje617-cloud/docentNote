@@ -48,33 +48,37 @@ public class ArchiveColorService {
 		List<PaintingColorMap> analyzedResults = extractColorsFromImage(imageUrl);
 		List<ArchiveColor> archives = archiveColorRepository.selectAllArchiveColors();
 
-		// score가 가장 높은 색상 하나만 뽑기
-		PaintingColorMap dominant = analyzedResults.stream().max(Comparator.comparingDouble(PaintingColorMap::getScore))
-				.orElse(null);
+		// score 내림차순 정렬
+		analyzedResults.sort(Comparator.comparingDouble(PaintingColorMap::getScore).reversed());
+
+		PaintingColorMap dominant = null;
+		int matchedId = -1;
+
+		for (PaintingColorMap candidate : analyzedResults) {
+			int candidateMatchedId = getBestMatchedColorId(candidate, archives);
+
+			// White(10), Brown(11)이 아닌 색상이 나오면 그걸로 확정
+			if (candidateMatchedId != 10 && candidateMatchedId != 11) {
+				dominant = candidate;
+				matchedId = candidateMatchedId;
+				break;
+			}
+
+			// 아직 dominant가 없으면 일단 1위로 설정
+			if (dominant == null) {
+				dominant = candidate;
+				matchedId = candidateMatchedId;
+			}
+		}
 
 		if (dominant == null)
 			return;
 
-		int matchedId = getBestMatchedColorId(dominant, archives);
+		System.out.println("paintingId=" + paintingId + " | R=" + dominant.getRaw_r() + ", G=" + dominant.getRaw_g()
+				+ ", B=" + dominant.getRaw_b() + " | score=" + dominant.getScore() + " | → colorId(" + matchedId + ")");
 
-		// 어떤 색상으로 분류됐는지 확인
-		String matchedColorName = archives.stream()
-		        .filter(a -> a.getId() == matchedId)
-		        .map(ArchiveColor::getColorName)
-		        .findFirst()
-		        .orElse("Unknown");
-
-		System.out.println("paintingId=" + paintingId 
-			    + " | R=" + dominant.getRaw_r() 
-			    + ", G=" + dominant.getRaw_g() 
-			    + ", B=" + dominant.getRaw_b() 
-			    + " | score=" + dominant.getScore()
-			    + " | → colorId(" + matchedId + ")");
-		
 		dominant.setPaintingId(paintingId);
 		dominant.setArchiveColorId(matchedId);
-
-		// insert 한 번만
 		archiveColorRepository.insertPaintingColorMap(dominant);
 	}
 
@@ -89,46 +93,50 @@ public class ArchiveColorService {
 
 		for (ArchiveColor c : archives) {
 
-		    // Blue: B가 R,G보다 10 이상 높아야 함 (하늘색 포함)
-		    if (c.getId() == 5 && !(b1 > r1 + 10 && b1 > g1 + 10)) {
-		        continue;
-		    }
-		    // Green: G가 R보다 15 이상 높아야 함
-		    if (c.getId() == 4 && !(g1 > r1 + 15)) {
-		        continue;
-		    }
-		    // Red: R이 G,B보다 30 이상 높아야 함
-		    if (c.getId() == 1 && !(r1 > g1 + 30 && r1 > b1 + 30)) {
-		        continue;
-		    }
-		    // Orange: R이 높고 G가 중간, B는 낮아야 함
-		    if (c.getId() == 2 && !(r1 > 150 && g1 > 80 && b1 < 120)) {
-		        continue;
-		    }
-		    // Yellow: R,G 모두 높고 B는 낮아야 함
-		    if (c.getId() == 3 && !(r1 > 150 && g1 > 150 && b1 < 130)) {
-		        continue;
-		    }
-		    // Navy: 전체적으로 어둡고 B가 R,G보다 높아야 함
-		    if (c.getId() == 6 && !(b1 > r1 && b1 > g1 && r1 < 100)) {
-		        continue;
-		    }
-		    // Purple: B가 R,G보다 높고 R도 어느정도 있으면 허용 (조건 완화)
-		    if (c.getId() == 7 && !(b1 > g1 + 5 && r1 > 60 && g1 < 130)) {
-		        continue;
-		    }
-		    // Pink: R이 압도적으로 높고 G,B는 중간 이상
-		    if (c.getId() == 8 && !(r1 > 180 && g1 > 80 && b1 > 100 && r1 > g1 + 20)) {
-		        continue;
-		    }
-		    // Black: 전체적으로 어두워야 함
-		    if (c.getId() == 9 && !(r1 < 80 && g1 < 80 && b1 < 80)) {
-		        continue;
-		    }
-		    // White: 전체적으로 밝아야 함
-		    if (c.getId() == 10 && !(r1 > 150 && g1 > 140 && b1 > 120)) {
-		        continue;
-		    }
+			// Blue: B가 R,G보다 10 이상 높아야 함 (하늘색 포함)
+			if (c.getId() == 5 && !(b1 > r1 + 10 && b1 > g1 + 10)) {
+				continue;
+			}
+			// Green: G가 R보다 15 이상 높아야 함
+			if (c.getId() == 4 && !(g1 > r1 + 15)) {
+				continue;
+			}
+			// Red: R이 G,B보다 30 이상 높아야 함
+			if (c.getId() == 1 && !(r1 > g1 + 30 && r1 > b1 + 30)) {
+				continue;
+			}
+			// Orange: R이 높고 G가 중간, B는 낮아야 함
+			if (c.getId() == 2 && !(r1 > 150 && g1 > 80 && b1 < 120)) {
+				continue;
+			}
+			// Yellow: R,G 모두 높고 B는 낮아야 함
+			if (c.getId() == 3 && !(r1 > 150 && g1 > 150 && b1 < 130)) {
+				continue;
+			}
+			// Navy: 전체적으로 어둡고 B가 R,G보다 높아야 함
+			if (c.getId() == 6 && !(b1 > r1 && b1 > g1 && r1 < 100)) {
+				continue;
+			}
+			// Purple: B가 R,G보다 높고 R도 어느정도 있으면 허용 (조건 완화)
+			if (c.getId() == 7 && !(b1 > g1 + 5 && r1 > 60 && g1 < 130)) {
+				continue;
+			}
+			// Brown: B가 너무 높으면 제외 (보라/파랑 계열 빼앗지 않도록)
+			if (c.getId() == 11 && b1 > r1 + 10) {
+				continue;
+			}
+			// Pink: R이 압도적으로 높고 G,B는 중간 이상
+			if (c.getId() == 8 && !(r1 > 180 && g1 > 80 && b1 > 100 && r1 > g1 + 20)) {
+				continue;
+			}
+			// Black: 전체적으로 어두워야 함
+			if (c.getId() == 9 && !(r1 < 80 && g1 < 80 && b1 < 80)) {
+				continue;
+			}
+			// White: 전체적으로 밝아야 함
+			if (c.getId() == 10 && !(r1 > 150 && g1 > 140 && b1 > 120)) {
+				continue;
+			}
 
 			double dr = Math.max(0, Math.max(c.getMin_r() - r1, r1 - c.getMax_r()));
 			double dg = Math.max(0, Math.max(c.getMin_g() - g1, g1 - c.getMax_g()));
@@ -140,7 +148,13 @@ public class ArchiveColorService {
 				minDistance = distance;
 				bestMatchedId = c.getId();
 			}
+
 		}
+		// 전부 다 맞는게 없으면 White 로 이동
+		if (bestMatchedId == -1) {
+			bestMatchedId = 10;
+		}
+
 		return bestMatchedId;
 	}
 
