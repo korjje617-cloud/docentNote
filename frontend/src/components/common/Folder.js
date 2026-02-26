@@ -1,36 +1,42 @@
 import React from 'react';
-// 1. NavLink를 사용하면 현재 주소와 일치할 때 자동으로 스타일을 준다
-import { NavLink } from 'react-router-dom';
 
-const Folder = () => {
-    const navItems = [
-        { name: "전체", path: "/api/archive/total" },
-        { name: "이름", path: "/api/archive/painter" },
-        { name: "미술사조", path: "/api/archive/movement" },
-        { name: "색상", path: "/api/archive/color" }
-    ];
+const Folder = ({ imgUrl, title, itemCount }) => {
+  return (
+    <div className="group flex flex-col items-start w-[280px] cursor-pointer">
+      
+      {/* 1. 폴더 상단 탭 (Window Folder Tab) */}
+      {/* 왼쪽만 둥글게 하고, 본체와 연결되는 오른쪽 아래는 직각으로 처리 */} 
+      <div className="w-[100px] h-[28px] bg-[#E5E5E5] rounded-t-[18px] ml-1 transition-colors group-hover:bg-[#c9c9c9]"></div>
+      
+      {/* 2. 폴더 메인 카드 본체 */}
+      {/* 상단 탭과 만나는 왼쪽 위(tl)만 직각(none)으로 설정하여 자연스럽게 연결 */}
+      <div className="w-full bg-[#E5E5E5] rounded-[24px] rounded-tl-none p-4 shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
+        
+        {/* 내부 이미지 컨테이너 */}
+        <div className="w-full h-[220px] bg-white rounded-[18px] overflow-hidden mb-5 border border-black/5">
+          <img
+            src={imgUrl || "https://via.placeholder.com/265x231?text=No+Image"}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            alt={title}
+          />
+        </div>
 
-    return (
-        /* 2. w-full 로 가로 길이 채우기 */
-        <header className="w-full h-[61px] bg-transparent flex justify-between items-center">
-            <div className="flex flex-col self-stretch pb-10 gap-7">
-                <div className="flex items-center self-stretch gap-[30px]">
-                    <div className="flex flex-1 flex-col items-start bg-[#F1F1F1] py-[13px] rounded-[18px]">
-                        <img
-                            src={"https://storage.googleapis.com/tagjs-prod.appspot.com/v1/Xkz4x9yRgw/xfjcipc6_expires_30_days.png"}
-                            className="w-[265px] h-[231px] mb-[18px] ml-3 rounded-[18px] object-fill"
-                        />
-                        <span className="text-black text-[15px] mb-2 ml-[13px]" >
-                            {"카테고리 타이틀 (이름 or 시대사조)"}
-                        </span>
-                        <span className="text-black text-[15px] ml-[13px]" >
-                            {"항목 갯수"}
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </header>
-    );
+        {/* 하단 텍스트 정보 */}
+        <div className="flex flex-col gap-1 px-1 text-left">
+          <span className="text-[#1A1A1A] text-[16px] font-bold tracking-tight truncate">
+            {title}
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-[#666666] text-[13px] font-medium">
+              {itemCount}
+            </span>
+            <div className="w-1 h-1 bg-[#B0B0B0] rounded-full"></div>
+            <span className="text-[#888888] text-[15px]">미술사조 이름</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Folder;

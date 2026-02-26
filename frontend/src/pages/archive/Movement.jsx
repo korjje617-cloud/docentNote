@@ -3,6 +3,7 @@ import axios from "axios";
 import Masonry from 'react-masonry-css'; 
 import '../../components/common/Archive.css'; 
 import ArchiveMenu from '../../components/common/ArchiveMenu.js';
+import Folder from '../../components/common/Folder.js';
 
 export default function Movement() {
     const [paintings, setPaintings] = useState([]); 
@@ -41,8 +42,11 @@ export default function Movement() {
                     </div>
 
                     <ArchiveMenu/>
+                    
+                    <Folder />
 
                     <div className="w-full">
+                        
                         <Masonry
                             breakpointCols={breakpointColumnsObj}
                             className="my-masonry-grid"

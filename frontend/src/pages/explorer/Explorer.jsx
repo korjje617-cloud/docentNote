@@ -55,7 +55,7 @@ export default function Explorer() {
 			<Button />
 			<div className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
 
-				{/* 2. 조명 이미지 (수정된 포인트!) */}
+				{/* 2. 조명 이미지 */}
 				<div
 					className="absolute inset-0 z-10 pointer-events-none"
 					style={{
