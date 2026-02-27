@@ -16,7 +16,7 @@ export default function Movement() {
 
     const fetchInitialData = async () => {
         try {
-            // 메인 API 호출 (현재 구조상 사조 정보가 포함된 painting 목록을 가져온다고 가정)
+            // API 호출 (사조 정보를 가져온다는 시나리오)
             const response = await axios.get('http://localhost:8081/api/main');
             const data = Array.isArray(response.data) ? response.data : [];
             setPaintings(data);
@@ -63,7 +63,7 @@ export default function Movement() {
                             {selectedMovementId ? movements.find(m => m.id === selectedMovementId)?.name : "미술사조 아카이브"}
                         </span>
                         <span className="text-black text-sm">
-                            {selectedMovementId ? "해당 사조의 작품들을 감상해보세요" : "시대사조별로 감상해보세요"}
+                            {selectedMovementId ? "이 시대의 작품들을 감상해보세요" : "시대별로 감상해보세요"}
                         </span>
                         {selectedMovementId && (
                             <button 

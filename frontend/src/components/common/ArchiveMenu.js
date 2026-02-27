@@ -1,4 +1,8 @@
 import React from 'react';
+
+import Search from './Search';
+
+
 // 1. NavLink를 사용하면 현재 주소와 일치할 때 자동으로 스타일을 준다
 import { NavLink } from 'react-router-dom';
 
@@ -30,7 +34,7 @@ const ArchiveMenu = () => {
                     ))}
                 </div>
                     {/*검색창 구현하기*/}
-                <div className="bg-white px-4 py-1 rounded-lg text-gray-400">{"검색창"}</div>
+                    <Search />
 
 
             </div>

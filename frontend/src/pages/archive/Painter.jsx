@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Masonry from 'react-masonry-css'; 
-import '../../components/common/Archive.css'; 
+import Masonry from 'react-masonry-css';
+import '../../components/common/Archive.css';
 import ArchiveMenu from '../../components/common/ArchiveMenu.js';
 import Folder from '../../components/common/Folder.js';
 
@@ -16,6 +16,7 @@ export default function Painter() {
 
     const fetchInitialData = async () => {
         try {
+            // API 호출 (화가 정보를 가져온다는 시나리오)
             const response = await axios.get('http://localhost:8081/api/main');
             const data = Array.isArray(response.data) ? response.data : [];
             setPaintings(data);
@@ -34,7 +35,7 @@ export default function Painter() {
                         enName: item.painterNameEn,
                         nationality: item.nationality,
                         // 화가의 폴더 커버로 해당 화가의 첫 번째 그림 사용
-                        coverImg: item.imgUrl 
+                        coverImg: item.imgUrl
                     });
                 }
             }
@@ -67,27 +68,26 @@ export default function Painter() {
                             {selectedPainterId ? "작가의 작품 세계를 감상해보세요" : "거장들의 작품을 화가별로 만나보세요"}
                         </span>
                         {selectedPainterId && (
-                            <button 
+                            <button
                                 onClick={() => setSelectedPainterId(null)}
-                                className="ml-5 px-4 py-1 bg-white rounded-full shadow-sm text-sm hover:bg-gray-100 transition-colors"
-                            >
-                                ← 화가 목록으로
+                                className="ml-5 px-4 py-1 bg-white rounded-full shadow-sm text-sm hover:bg-gray-100 transition-colors">
+                                ← 목록으로 돌아가기
                             </button>
                         )}
                     </div>
 
-                    <ArchiveMenu/>
-                    
+                    <ArchiveMenu />
+
                     <div className="w-full">
                         {!selectedPainterId ? (
                             /* --- 화가 폴더 목록 화면 --- */
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center">
                                 {painters.map((painter) => (
                                     <div key={painter.id} onClick={() => setSelectedPainterId(painter.id)}>
-                                        <Folder 
-                                            imgUrl={painter.coverImg} 
-                                            title={painter.name} 
-                                            itemCount={`${paintings.filter(p => p.painterId === painter.id).length}점의 작품`} 
+                                        <Folder
+                                            imgUrl={painter.coverImg}
+                                            title={painter.name}
+                                            itemCount={`${paintings.filter(p => p.painterId === painter.id).length}점의 작품`}
                                         />
                                     </div>
                                 ))}
@@ -102,11 +102,11 @@ export default function Painter() {
                                 {filteredPaintings.map((p) => (
                                     <div key={p.id} className="flex flex-col items-start bg-[#F1F1F1] p-3 rounded-[18px] mb-6 shadow-sm">
                                         <img
-                                            src={p.imgUrl} 
+                                            src={p.imgUrl}
                                             className="w-full rounded-[18px] mb-4 object-cover hover:scale-[1.02] transition-transform duration-300"
                                             alt={p.paintingNameKr}
                                             onError={(e) => {
-                                                e.target.onerror = null; 
+                                                e.target.onerror = null;
                                                 e.target.src = "https://via.placeholder.com/300?text=Image+Not+Found";
                                             }}
                                         />
@@ -114,7 +114,7 @@ export default function Painter() {
                                             {p.paintingNameKr}
                                         </span>
                                         <span className="text-gray-600 text-[13px] ml-[13px]">
-                                            {p.moveNameKr} 
+                                            {p.moveNameKr}
                                         </span>
                                     </div>
                                 ))}
