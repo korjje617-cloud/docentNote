@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// 부모가 준 onSearch 함수를 받기
+// total 이 준 onSearch 함수를 받기
 const Search = ({ onSearch }) => {
 
   const handleChange = (e) => {
-    // 사용자가 입력한 글자를 바로 부모에게 전달
+    // 사용자가 입력한 글자를 바로 total 에게 전달한다
     onSearch(e.target.value);
   };
 
