@@ -1,10 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Search = () => {
-   return (
+// 부모가 준 onSearch 함수를 받기
+const Search = ({ onSearch }) => {
+
+  const handleChange = (e) => {
+    // 사용자가 입력한 글자를 바로 부모에게 전달
+    onSearch(e.target.value);
+  };
+
+  return (
     <StyledWrapper>
-      <input placeholder="제목 검색..." type="text" name="text" className="input" />
+      <input 
+        placeholder="제목 검색..." 
+        type="text" 
+        className="input" 
+        onChange={handleChange} // 글자가 바뀔 때마다 실행
+      />
     </StyledWrapper>
   );
 }
