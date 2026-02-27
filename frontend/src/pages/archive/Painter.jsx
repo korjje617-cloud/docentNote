@@ -10,9 +10,20 @@ export default function Painter() {
     const [painters, setPainters] = useState([]); // 화가 목록 데이터
     const [selectedPainterId, setSelectedPainterId] = useState(null); // 선택된 화가 ID
 
+    // 이건 데이터 불러오기
     useEffect(() => {
         fetchInitialData();
     }, []);
+
+    // 이건 폴더 눌러서 메이슨리 페이지로 들어갔을 때 스크롤을 최상단으로 올리는거
+    useEffect(() => {
+        if (selectedPainterId !== null) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    }, [selectedPainterId]);
 
     const fetchInitialData = async () => {
         try {
@@ -56,7 +67,7 @@ export default function Painter() {
     };
 
     return (
-        <div className="flex flex-col bg-white min-h-screen">
+        <div id="scroll-top" className="flex flex-col bg-white min-h-screen">
             <div className="flex flex-col self-stretch bg-[#F2F2F2] pb-[46px] gap-[38px]">
                 <div className="flex flex-col items-start self-stretch mx-[95px] gap-[30px]">
                     {/* 타이틀 영역 */}
@@ -94,6 +105,8 @@ export default function Painter() {
                             </div>
                         ) : (
                             /* --- 선택된 화가의 그림 메이슨리 화면 --- */
+
+
                             <Masonry
                                 breakpointCols={breakpointColumnsObj}
                                 className="my-masonry-grid"
