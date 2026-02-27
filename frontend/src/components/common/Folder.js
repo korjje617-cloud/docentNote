@@ -31,7 +31,7 @@ const Folder = ({ imgUrl, title, itemCount }) => {
               {itemCount}
             </span>
             <div className="w-1 h-1 bg-[#B0B0B0] rounded-full"></div>
-            <span className="text-[#888888] text-[15px]">미술사조 이름</span>
+            <span className="text-[#888888] text-[15px]"></span>
           </div>
         </div>
       </div>

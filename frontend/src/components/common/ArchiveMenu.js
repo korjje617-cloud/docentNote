@@ -29,7 +29,10 @@ const ArchiveMenu = () => {
                         </NavLink>
                     ))}
                 </div>
+                    {/*검색창 구현하기*/}
                 <div className="bg-white px-4 py-1 rounded-lg text-gray-400">{"검색창"}</div>
+
+
             </div>
         </header>
     );

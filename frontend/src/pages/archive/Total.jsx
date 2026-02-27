@@ -47,7 +47,7 @@ export default function Total() {
             <div className="flex flex-col self-stretch bg-[#F2F2F2] pb-[46px] gap-[38px]">
                 <div className="flex flex-col items-start self-stretch mx-[95px] gap-[30px]">
                     <div className="flex items-center gap-[34px] mt-10">
-                        <span className="text-black text-[40px] font-song-bold">{"아카이브"}</span>
+                        <span className="text-black text-[40px] font-song-bold">{"전체 아카이브"}</span>
                         <span className="text-black text-sm">{"더 많은 그림을 감상해보세요"}</span>
                     </div>
 
