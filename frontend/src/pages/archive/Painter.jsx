@@ -4,6 +4,8 @@ import Masonry from 'react-masonry-css';
 import '../../components/common/Archive.css';
 import ArchiveMenu from '../../components/common/ArchiveMenu.js';
 import Folder from '../../components/common/Folder.js';
+// 추가: 도슨트 페이지로 넘어가기 위해 useNavigate 도구 가져오기
+//import { useNavigate } from 'react-router-dom'; 
 
 export default function Painter() {
     const [paintings, setPaintings] = useState([]); // 전체 그림 데이터

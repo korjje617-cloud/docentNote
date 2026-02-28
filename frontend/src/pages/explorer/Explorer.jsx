@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+// 추가: 도슨트 페이지로 넘어가기 위해 useNavigate 도구 가져오기
+//import { useNavigate } from 'react-router-dom'; 
 
 import Button from '../../components/common/Button';
 

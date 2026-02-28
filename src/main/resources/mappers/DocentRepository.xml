@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.DocentRepository">
+
+    <select id="findByPaintingId" resultType="Docent">
+        SELECT id, paintingId, body, regDate, updateDate
+        FROM docent
+        WHERE paintingId = #{paintingId}
+    </select>
+
+    <insert id="save">
+        INSERT INTO docent (paintingId, body, regDate, updateDate)
+        VALUES (#{paintingId}, #{body}, NOW(), NOW())
+    </insert>
+
+</mapper>

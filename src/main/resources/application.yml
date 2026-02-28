@@ -13,3 +13,6 @@ spring:
 mybatis:
     type-aliases-package: com.example.demo.vo
     mapper-locations: classpath:/mappers/**/*.xml
+gpt:
+  api:
+    key: sk-proj 키 삭제
